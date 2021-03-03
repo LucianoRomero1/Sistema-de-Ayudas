@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asignar Categoria{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <a class = "btn " style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verDestino')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8;"></i></a>
+    <h1 class = "text-center mt-4" style = "text-transform: uppercase;" id = "textoAsignar">Email - {{destino.email}}</h1>
+    <div class = "container mt-5">
+        <div class = "container mt-5" id = "divCruds" >
+            <h3 class = "text-info ">Categorias Principales asignadas</h3>
+            <table class = "table table-bordered mt-4 ">
+                <thead>
+                    <tr>
+                        <th scope="col">Nro</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Quitar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Ordeno las categorias con SORT Solamente las asignadas, las restantes se ordenan en el controller #}
+                    {% for catDestino in categoriasDestino|sort((a, b) => a.nombreCategoria <=> b.nombreCategoria) %}
+                        
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{catDestino.nombreCategoria}}</td>
+                                <td>{{catDestino.descripcionCategoria}}</td>
+                                <td class = "text-center"><a class ="btn" onclick = "DeleteFunctionDestino({{catDestino.id}}, {{destino.id}})"  style="color:red;"><i class="material-icons">clear</i></a></td>
+                            </tr>
+                    
+                    {% else %}
+                        <h4 class = "text-secondary ml-2" style = "font-size:15px">No hay categorías asignadas.</h4>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h3 class = "text-info mt-5">Categorias Principales restantes</h3>
+            <table = class = "table table-bordered mt-4" >
+                <thead>
+                    <tr>
+                        <th scope="col">Nro</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Agregar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                {% for catResto in categoriasResto %}
+                    {% if catResto in categoriasDestino %}
+                                    {# |sort((a, b) => b.nombreCategoria <=> a.nombreCategoria)   #}
+
+                    {# Este if sirve para corroborar lo siguiente, si los perfiles que estan en resto, estan en categoria perfil , no hago nada
+                    Sino muestro los restantes abajo, NO incluyendo los que estan en categoria Perfil, solo muestro los restantes #}
+                    {% else %}
+                        {% if catResto.emailAsignado == false %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{catResto.nombreCategoria}}</td>
+                                <td>{{catResto.descripcionCategoria}}</td>
+                                <td class = "text-center"><a class="btn" href="{{path('agregarCategoriaDestino', {'id': catResto.id,'id2': destino.id})}}" style="color:green;" ><i class="material-icons">add</i></a></td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+        </div>
+    </div>
+    <script src = "{{asset('js/asignarCategorias.js')}}"></script>
+
+{% endblock %}

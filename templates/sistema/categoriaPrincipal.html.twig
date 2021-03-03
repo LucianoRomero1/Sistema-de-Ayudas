@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categoría Principal{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class = "container mt-5">
+        {# //Esta flechita es para el celu y el div es para la PC #}
+        <a href = "{{path('sistema')}}" class = "ml-3"><i class="fas fa-home text-secondary" style = "font-size: 25px;" id = "flechitaAtras"></i></a> 
+        <a href = "{{path('sistema')}}"class = "ml-2" ><i class="fas fa-arrow-left text-secondary" style = "font-size: 25px;" id = "flechitaAtras"></i></a>
+        
+        <div class = "container " id = "divCaminito">
+            <a href = "{{path('sistema')}}"class = "" style = "font-size: 18px; color: #0F9FA8;">INICIO</a> /
+            <a class = " text-secondary ml-1 text-center d-inline" id = "TextCatPP" href = "#">{{perfil.descripcionCorta}}</a>
+        </div>   
+        <div class = "marginTop container mt-3">  
+            <div class = "container" id ="CatPrincipalDiv">
+                <div class = " container" id = "tituloCatPrincipal">
+                    <p class = "list-group-item list-group-item-action text-center text-white"  style = "background-color: #0F9FA8;">Categorias Principales</p>
+                </div>
+                {# Ordena las categorias segun los clicks, se hace aca porque es una relacion de muchos a muchos, no se puede
+                en el controller con una consulta directo a la base de datos, es tipo un ordenamiento burbuja.
+                Se usa SORT aca en twig cuando la relacion es de ManyToMany #}
+                <div class = "  container" id = "nombresCatPrincipal">
+                    {% for categorias in cat|sort((a, b) => b.click <=> a.click)  %} 
+                        {% if categorias.publicado == "Publicado" %}
+                            {% if categorias.icono != null and categorias.icono != "" %}
+                                <a id ="borde" class = "list-group-item list-group-item-action mb-1" href = "{{path('categoriaSecundaria', {'id': categorias.id , 'idPerfil': idPerfil})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{categorias.descripcionCategoria}}"><img src="{{asset(('uploads/iconos/'~ categorias.icono))}}" style="width:22px;margin-bottom:5px; margin-right: 10px;" class=" imagenSistema ">{{categorias.nombreCategoria}}</a>
+                            {% else %}
+                                <a id ="borde" class = "list-group-item list-group-item-action mb-1" href = "{{path('categoriaSecundaria', {'id': categorias.id , 'idPerfil': idPerfil})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{categorias.descripcionCategoria}}">{{categorias.nombreCategoria}}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %} 
+                </div>
+         
+            </div>
+            
+        
+        </div>
+    </div>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/animaciones.js')}}"></script>
+<script src = "{{asset('js/popup.js')}}"></script>
+{% endblock %}
+{% endblock %}
+

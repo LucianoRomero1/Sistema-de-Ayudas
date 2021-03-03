@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ver Contactos{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+<table class="table table-borderless">
+        <thead>
+             <tr style="background-color:#17a2b8;color:white;">
+                <th>Nro</th>
+                <th>Email</th>
+                <th>Categoria PP Asociada</th>
+                <th style="text-align: center;">EDITAR</th>
+                <th style="text-align: center;">ELIMINAR</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for contactos in contacto %}
+            <tr>
+                <th>{{ loop.index }}</th>
+                <td style = "text-transform: uppercase;">{{contactos.email}}</td>
+                <td style = "text-transform: uppercase;">{{contactos.categoriaPrincipal.nombreCategoria}}</td>
+                <td style="text-align: center;"><a class ="btn" href="{{path ('modificarContactos', {'id': contactos.id})}}" ><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class = "btn" onclick="DeleteFunction({{contactos.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>  
+<script src = "{{asset("js/verContacto.js")}}"> </script>
+{% endblock %}

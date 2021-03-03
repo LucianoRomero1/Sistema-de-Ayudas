@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Información{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class ="container mt-5">
+        {# //Esta flechita es para el celu y el div es para la PC#}
+        <a href = "{{path('sistema')}}" class = "ml-3"style = "font-size: 25px;" id = "flechitaAtras"><i class="fas fa-home text-secondary"></i></a> 
+        <a class = "ml-2" href ="{{path('categoriaSecundaria', {'id': idCatPP,'idPerfil': idPerfil})}}"><i class="fas fa-arrow-left text-secondary" style = "font-size: 25px; " id = "flechitaAtras"></i></a>
+        <div class = "container" id = "divCaminito">
+            <a href = "{{path('sistema')}}"class = "" style = "font-size: 18px; color: #0F9FA8;">INICIO /</a>
+            {# <a class = "btn mb-1" href ="{{path('categoriaSecundaria', {'id': idCatPP,'idPerfil': idPerfil})}}"><i class="fas fa-arrow-left text-secondary mt-1" style = "font-size: 18px; "></i></a> #}
+            <a class = " text-center d-inline ml-1" style = "color: #0F9FA8;" id = "TextInfo1" href = "{{path('categoriaPrincipal', {'id': idPerfil})}}" >{{perfil.descripcionCorta}} /</a>
+            <a class = " text-center ml-1" style = "color: #0F9FA8;"  id = "TextInfo2" href ="{{path('categoriaSecundaria', {'id': idCatPP,'idPerfil': idPerfil})}}" >{{catPP.nombreCategoria}} /</a>
+            <a class = "text-secondary text-center ml-1" id = "TextInfo3" href = "#">{{catSec.nombreCategoria}}</a> 
+        </div>
+           
+        <div class = "container mt-5"> 
+            <h1 style="color: #FEB413;">Información</h1>  
+        </div>
+        <div class = "container mt-5" id = "divInfo">  
+           
+            {#  {{info.explicacion|raw}}      raw es para que el html cuando lo das de alta se vea bien     #}
+            {# {{info.explicacion}} #}
+            {# {{dump(info)}} #}
+         
+            {% for informacion in info %}
+                <div class = "container">
+                {{informacion.explicacion|raw}}
+                </div>   
+            {% endfor %}
+        </div>
+        <div class = "container mt-5 text-center">
+            <h2  style = "font-size: 30px; color:#0F9FA8;">¿Fue útil la información?¡Contactáte con nosotros!</h2>
+            <a id = "contactoPC2" class = "btn btn-outline-info mt-3 " style ="width: 200px; font-size: 20px;" href ="{{path('formularioContacto', {'idPerfil': idPerfil, 'idCatPP': idCatPP, 'idCatSec': idCatSec})}}">Contacto<i class="fas fa-address-card ml-3 " style = "font-size: 20px;"></i></a>
+        </div>
+        
+        <br>
+        <br>   
+     
+    </div>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/animaciones.js')}}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categoría Secundaria{% endblock %}
+
+{% block body %}
+    {{parent()}}
+    <div class ="container mt-5">
+         {# //Esta flechita es para el celu, el div es para la PC#}
+        <a href = "{{path('sistema')}}" class = "ml-3"style = "font-size: 25px;" id = "flechitaAtras"><i class="fas fa-home text-secondary"></i></a> 
+        <a href = "{{path('categoriaPrincipal', {'id': idPerfil})}}" class = "ml-2" ><i class="fas fa-arrow-left text-secondary" style = "font-size: 25px;  " id = "flechitaAtras"></i></a>
+        <div class = "container" id = "divCaminito">
+            <a href = "{{path('sistema')}}"class = "" style = "font-size: 18px;color: #0F9FA8;">INICIO</a> /
+            <a class = " ml-1 text-center d-inline" style = "color: #0F9FA8;" id = "textCatSecPerfil" href = "{{path('categoriaPrincipal', {'id': idPerfil})}}" > {{perfil.descripcionCorta}}</a> / 
+            <a class = "text-secondary ml-1 text-center" href = "#"  id = "textCatSecPerfil">{{catPP.nombreCategoria}}</a></h1> 
+        </div>
+        
+        <div class="marginTop container mt-3">  
+            <div class = "container" id ="CatSecundariaDiv">
+                <div class = "   container" id = "tituloCatSecundaria">
+                    <p class = "list-group-item list-group-item-action text-center text-white"  style = "background-color: #0F9FA8;">Categorias Secundarias</p>
+                </div>
+                <div class = "   container" id = "nombresCatSecundaria">                 
+                    {% for categorias2 in catSec %}
+                        {% if categorias2.publicado == "Publicado" %}
+                            {% if categorias2.icono != null and categorias2.icono != "" %}
+                                <a id = "borde" class = "list-group-item list-group-item-action mb-1" href="{{path('informacion', {'id': categorias2.id, 'idPerfil': idPerfil, 'idCatPP': idCatPP})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{categorias2.descripcionCategoria}}"><img src="{{asset(('uploads/iconos/'~ categorias2.icono))}}" style="width:22px;margin-bottom:5px;margin-right: 10px;" class=" imagenSistema ">{{categorias2.nombreCategoria}}</a>  
+                            {% else %}
+                                <a id = "borde" class = "list-group-item list-group-item-action mb-1" href="{{path('informacion', {'id': categorias2.id, 'idPerfil': idPerfil, 'idCatPP': idCatPP})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{categorias2.descripcionCategoria}}">{{categorias2.nombreCategoria}}</a>  
+                            {% endif %}
+                        
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class = "mt-5" style="text-align:center;" id = "ContactoPC3">
+            <h6 style = "font-size: 30px; color:#0F9FA8;"> ¿No encontrás tu consulta? ¡Contactáte con nosotros! <h6>
+            <a id = "contactoPC" class = "btn btn-outline-info mt-3" style ="width: 200px; font-size: 20px;" href ="{{path('formularioContacto2', {'idPerfil': idPerfil, 'idCatPP': idCatPP})}}" >Contacto<i class="fas fa-address-card ml-3 " style = "font-size: 20px;"></i></a>
+        </div>
+        
+        <div class = "container text-center mt-5" id = "contactoCelu">
+            <h6 style = "font-size: 30px; color:#0F9FA8;"> ¿No encontrás tu consulta?, ¡Contactáte con nosotros! <h6>
+            <a class = "btn btn-outline-info mt-3 " style ="width: 200px; font-size: 20px;" href ="{{path('formularioContacto2', {'idPerfil': idPerfil, 'idCatPP': idCatPP})}}" >Contacto<i class="fas fa-address-card ml-3" style = "font-size: 20px;" ></i></a>
+        </div>
+    </div>
+<br>
+<br>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/animaciones.js')}}"></script>
+<script src = "{{asset('js/popup.js')}}"></script>
+{% endblock %}
+{% endblock %}

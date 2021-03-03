@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alta Destinos{% endblock %}
+
+{% block body %}
+{{parent()}}
+<a class = "btn" style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verDestino')}}"><i class="fas fa-arrow-left " style = "font-size: 30px; color: #0F9FA8;"></i></a>
+<div class = "container">
+    <div class = "container mt-5" id = "divCruds" >
+        <h1 class = "text-center  " style = "font-size: 50px;">Alta Destinos</h1>
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+        <div class = "container mt-5" id = "divPertenece">
+            {{ form_widget(formulario.email, {attr: {class: 'form-control camposEstandar', placeholder: 'Email'}})}}
+        </div>
+        
+        <div class = "container mt-5 text-center">
+            {{ form_widget(formulario.Aceptar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
+        </div>
+        {{ form_end(formulario) }}
+    </div>
+</div>
+{% endblock %}

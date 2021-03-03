@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ver Destino{% endblock %}
+
+{% block body %}
+{{parent()}}
+
+<table class="table table-borderless">
+    <thead>
+            <tr style = "background-color: #0F9FA8;">
+            <th>Nro</th>
+            <th>Email</th>
+            <th style="text-align: center;">ASIGNAR CATEGORÍAS PRINCIPALES</th>
+            <th style="text-align: center;">EDITAR</th>
+            <th style="text-align: center;">ELIMINAR</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        {% for dest in destino %}
+        <tr>
+            <th>{{loop.index }}</th>
+            <td>{{dest.email}}</td>
+            <td style="text-align: center;"><a class ="btn" href="{{path ('asignarCategoriaDestino', {'id' : dest.id})}}" ><i class="fas fa-people-arrows text-info" style = "font-size: 20px;"></i></a></td>
+            <td style="text-align: center;"><a class ="btn" href="{{path ('modificarDestino', {'id': dest.id})}}"><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
+            <td style="text-align: center;"><a class = "btn" onclick="DeleteFunction({{dest.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+<script src = "{{asset('js/verDestino.js')}}"></script>
+{% endblock %}

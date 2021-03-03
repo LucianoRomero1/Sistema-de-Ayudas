@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alta Contactos{% endblock %}
+
+{% block body %}
+   {{parent()}}
+
+        <div class ="container">
+            <h1 class = "text-center text-info " style = "font-size: 50px;">Alta Contactos</h1>
+            {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+                <div class = "container w-50 mt-5">
+                    {{ form_widget(formulario.categoriaPrincipal, {attr: {class: 'form-control camposEstandar'}})}}
+                </div>
+                <div class = "container w-50 mt-5">
+                    {{ form_widget(formulario.email, {attr: {class: 'form-control camposEstandar', placeholder: 'Email Correspondiente'}})}}
+                </div> 
+               <div class = "container mt-5 text-center">
+                  {{ form_widget(formulario.Aceptar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
+               </div>
+            {{ form_end(formulario) }}
+        </div>
+ 
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modificar Categorias Secundarias{% endblock %}
+
+{% block body %}
+{{parent()}}
+    <a class = "btn " style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verCategoriasSecundarias')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8; "></i></a>
+    <div class ="container">
+        <h1 class = "text-center " style = "font-size: 50px;">Modificar Categorias Secundarias</h1>
+        <div class = "container mt-5" id = "divCruds">
+            {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+            <div class = "container  mt-5" id = "divPerfil">
+                <h6 class = "text-center">Asociar a Categoría PP...</h6>
+                {{ form_widget(formulario.id_categoria_principal, {attr: {class: 'form-control camposEstandar'}})}}
+            </div>
+            <div class = "container  mt-5" id = "divPerfil">
+                {{ form_widget(formulario.nombre_categoria, {attr: {class: 'form-control camposEstandar', placeholder: 'Nombre categoría secundaria'}})}}
+            </div>
+            <div class = "container  mt-5" id = "divDescripcLarga">
+                {{ form_widget(formulario.descripcion_categoria, {attr: {class: 'form-control camposEstandar', placeholder: 'Descripción'}})}}
+            </div>
+            <div class = "row mt-5 justify-content-center">
+                <div class = "col-sm-3">
+                    <label style = "color: #0F9FA8"class = " col-sm-12 text-center">Fecha Publicación Desde: </label>
+                </div>
+                <div class = "col-sm-1"></div>
+                <div class = "col-sm-3">
+                    {{ form_widget(formulario.fecha_publicacion_desde, {attr: {class: 'form-control camposEstandar'} })}}
+                </div>
+            </div>
+            <div class = "text-center mt-5">
+                <h3 class = "text-info"> Agregar fecha de caducidad </h3>
+                <input id = "agregarFecha" type = "checkbox">
+            </div>
+            <div class = "row mt-3 justify-content-center" id = "divFechaCaducidad">
+                <div class = "col-sm-3">
+                    <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Fecha Publicación Hasta: </label>
+                </div>
+                <div class = "col-sm-1"></div>
+                <div class = "col-sm-3">
+                    {{ form_widget(formulario.fecha_publicacion_hasta, {attr: {class: 'form-control camposEstandar'} })}}
+                </div>
+            </div>
+            <div class = "container mt-5 text-center">
+                {{ form_widget(formulario.Aceptar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
+            </div>
+            {{ form_end(formulario) }}
+        </div>
+    </div>
+<br>
+<br>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/accionesQuery.js')}}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ver Perfiles{% endblock %}
+
+{% block body %}
+{{parent()}}
+<table class="table table-borderless">
+        <thead>
+            <tr style = "background-color: #0F9FA8;">
+                <th>Nro</th>
+                <th>Descripción</th>
+                <th>Publicado</th>
+                <th>Fecha Publicación Desde</th>
+                <th>Pertenece</th>
+                <th style="text-align: center;">ASIGNAR CATEGORÍAS</th>
+                <th style="text-align: center;">EDITAR</th>
+                <th style="text-align: center;">ELIMINAR</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for perfiles in perfil %}
+            <tr>
+                <th>{{ loop.index }}</th>
+                <td>{{perfiles.descripcionCorta}}</td>
+                <td>{{perfiles.publicado}}</td>
+                <td>{{perfiles.fechaPublicacionDesde|date('d-m-Y')}}</td>
+                <td>{{perfiles.comunidadUnraf}}</td>
+                <td style="text-align: center;"><a class ="btn" href="{{path ('asignarCategorias', {'id' : perfiles.id})}}" ><i class="fas fa-people-arrows text-info" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class ="btn" href="{{path ('modificarPerfiles', {'id': perfiles.id})}}" ><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class = "btn" onclick="DeleteFunction({{perfiles.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
+                
+            </tr>
+            
+            {% endfor %}
+            
+        </tbody>
+        
+    </table>  
+
+
+<script src= "{{asset('js/verPerfiles.js')}}"></script>    
+
+
+
+{% endblock %}
