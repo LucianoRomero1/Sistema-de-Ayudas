@@ -1,45 +1,80 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Dar Roles{% endblock %}
+{% block title %}FAQS - Modificar Roles{% endblock %}
 
 {% block body %}
 {{parent()}}
-<div class = "container mt-5">
+<div class = "container">
     <h2 class = "text-center text-info" style = "font-size: 50px"> Usuarios </h2>
-    <div class = "list-group mt-5" id = "divRoles">
-        <div class = "container mt-5 p-5" style = "box-shadow: 2px 3px 5px 1px #888888">
-            {% for users in usuarios %}
-                <div class = "row">
-                    <div class ="col-sm-8">
-                        <p class "list-group-item">{{users.email}}</p>
+    <div class = "list-group mt-4" id = "divRoles">
+        <div style="padding:10px; margin:10px;">
+            <div style="" class="container text-center">
+                <b style = "color: #0F9FA8;">Cantidad de usuarios: {{usuario|length}} </b>
+            </div>
+            <hr>
+            <div style="margin-top:5px;">
+                {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+                <div class = "row justify-content-center">
+                    <div class = "col-sm-3"></div>
+                    <div class = "col-sm-8 media">
+                        {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Escribir el email..'} }) }}  
+                        {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar d-inline'} }) }}  
                     </div>
-
-                    <div class = "col">
-                        {% for rol in users.roles %}
-                        {# El loop last sirve para analizar en base al ultimo rol, y que no aparezcan 70 botones, porque uno
-                        Tiene 1 o mas roles siempre #}
-                        {% if loop.last %} 
-                            {% if rol == "ROLE_SUPERADMIN" %}
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioLector', {'id': users.id})}}">Lector</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': users.id})}}">Editor</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': users.id})}}">Admin</a>
-                            {% elseif rol == "ROLE_ADMIN" %}
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm " href = "{{path('cambioLector', {'id': users.id})}}">Lector</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': users.id})}}">Editor</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': users.id})}}">SuperAdmin</a>
-                            {% elseif rol == "ROLE_EDITOR"%}
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioLector', {'id': users.id})}}">Lector</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': users.id})}}">Admin</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': users.id})}}">SuperAdmin</a>
-                            {% else %}
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': users.id})}}">Editor</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': users.id})}}">Admin</a>
-                                <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': users.id})}}">SuperAdmin</a>
-                            {% endif %}
-                        {% endif %}
-                        {% endfor %}
+                    <div class = "col-sm-1">
+                        
                     </div>
                 </div>
+                {{ form_end(formulario) }}
+                
+            </div>
+        </div>
+        <div class = "container mt-5 p-5" style = "box-shadow: 2px 3px 5px 1px #888888">
+            <div class = "row">
+                <div class = "col-sm-4">
+                    <h5 class = "text-center" style = "color: #0F9FA8">Email</h5>
+                </div>
+                <div class = "col-sm-3">
+                    <h5 class = "text-center" style = "color: #0F9FA8">Último acceso</h5>   
+                </div>
+                <div class = "col-sm-5">
+                    <h5 class = "text-center" style = "color: #0F9FA8">Asignar roles</h5>
+                </div>
+            </div>
+            {% for user in usuario %}
+                   <div class = "row mt-5">
+                        <div class = "col-sm-4">
+                            <p class = "text-center">{{user.email}}</p>
+                        </div>
+                        <div class = "col-sm-3">
+                            <p class = "text-center">{{user.ultimoAcceso|date("d/m H:i")}}</p>
+                        </div>
+                        <div class = "col-sm-5">
+                            {% for rol in user.roles %}
+                        {# El loop last sirve para analizar en base al ultimo rol, y que no aparezcan 70 botones, porque uno
+                        Tiene 1 o mas roles siempre #}
+                            {% if loop.last %} 
+                                {% if rol == "ROLE_SUPERADMIN" %}
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioLector', {'id': user.id})}}">Lector</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': user.id})}}">Editor</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': user.id})}}">Admin</a>
+                                {% elseif rol == "ROLE_ADMIN" %}
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm " href = "{{path('cambioLector', {'id': user.id})}}">Lector</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': user.id})}}">Editor</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': user.id})}}">SuperAdmin</a>
+                                {% elseif rol == "ROLE_EDITOR"%}
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioLector', {'id': user.id})}}">Lector</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': user.id})}}">Admin</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': user.id})}}">SuperAdmin</a>
+                                {% else %}
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioEditor', {'id': user.id})}}">Editor</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioAdmin', {'id': user.id})}}">Admin</a>
+                                    <a class = "btn btn-outline-info p-2 ml-3 btn-sm" href = "{{path('cambioSuperadmin', {'id': user.id})}}">SuperAdmin</a>
+                                {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 <hr style = "background-color: orange;">
             {% endfor %}
         </div>
@@ -47,5 +82,8 @@
 </div>
 <br>
 <br>
-
+<script src = "{{asset('js/deleteUser.js')}}"></script>
 {% endblock %}
+
+
+       

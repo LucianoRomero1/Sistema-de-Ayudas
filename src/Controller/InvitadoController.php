@@ -61,6 +61,6 @@ class InvitadoController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('sistema');
+        return $this->redirectToRoute('sistemaSinBarra');
     }
 }

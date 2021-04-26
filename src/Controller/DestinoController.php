@@ -9,12 +9,14 @@ use App\Entity\Destinos;
 use App\Entity\CategoriaPrincipal;
 use App\Form\DestinoType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\UserBusqueda;
+use App\Form\UserBusquedaType;
 
 
 class DestinoController extends AbstractController
 {
     /**
-     * @Route("/altaDestino", name="altaDestino")
+     * @Route("/admin/altaDestino", name="altaDestino")
      */
     public function altaDestino(Request $request)
     {
@@ -29,7 +31,7 @@ class DestinoController extends AbstractController
             $em -> flush();
 
             $this -> addFlash('info', '¡El destino se cargó correctamente!');
-            return $this -> redirectToRoute('verDestino');
+            return $this -> redirectToRoute('verDestinos');
         }
 
         return $this -> render('destino/altaDestino.html.twig', 
@@ -38,21 +40,55 @@ class DestinoController extends AbstractController
 
 
     /**
-     * @Route("/verDestino", name="verDestino")
+     * @Route("/admin/verDestinos", name="verDestinos")
      */
-    public function verDestino(){
+    public function verDestino(Request $request){
         $em = $this -> getDoctrine() -> getManager();
+
+        $form = $this -> createForm(UserBusquedaType::class, new UserBusqueda());
+        $form -> handleRequest($request);
+        $busqueda = $form -> getData();
+
 
         $destino = $em -> getRepository(Destinos::class) ->findBy(array(), array('email' => 'ASC'));
 
-        return $this -> render('destino/verDestino.html.twig', [
-            'destino' => $destino
-        ]);
+
+        if($form -> isSubmitted()){
+            return $this -> render('destino/verDestino.html.twig', [
+                'destino' => $this -> buscarDestino($busqueda), 'formulario' => $form -> createView()
+                ]);
+        }
+        else{
+            return $this -> render('destino/verDestino.html.twig', [
+                'destino' => $destino, 'formulario' => $form -> createView()
+            ]);
+        }
+
+    }
+
+
+    public function buscarDestino(UserBusqueda $busqueda){
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT d
+        FROM App\Entity\Destinos d
+        WHERE d.email LIKE :email
+        ORDER BY d.id ASC
+        "
+        )->setParameter('email','%'. $busqueda->getBuscar().'%');
+        
+        
+        //Límite de resultados..
+        $query->setMaxResults(100);
+        
+        //Retorna busqueda de la compra..
+        return $query->getResult();
     }
 
 
       /**
-     * @Route("/modificarDestino/{id}", name="modificarDestino")
+     * @Route("/admin/modificarDestino/{id}", name="modificarDestino")
      */
     public function modificarDestino($id, Request $request){
         $em = $this -> getDoctrine() -> getManager();
@@ -67,7 +103,7 @@ class DestinoController extends AbstractController
             $this -> addFlash('info', '¡El destino se modificó correctamente!');
             $em -> flush();
 
-            return $this -> redirectToRoute('verDestino');
+            return $this -> redirectToRoute('verDestinos');
         }
 
         return $this -> render('destino/modificarDestino.html.twig',[
@@ -78,7 +114,7 @@ class DestinoController extends AbstractController
 
 
        /**
-     * @Route("/eliminarDestino/{id}", name="eliminarDestino")
+     * @Route("/admin/eliminarDestino/{id}", name="eliminarDestino")
      */
     public function eliminarDestino($id){
         $em = $this -> getDoctrine() -> getManager();
@@ -88,13 +124,13 @@ class DestinoController extends AbstractController
         $em -> flush();
 
         $this -> addFlash('info', '¡El destino se eliminó correctamente!');
-        return $this -> redirectToRoute('verDestino');
+        return $this -> redirectToRoute('verDestinos');
     }
      
 
 
     /**
-     * @Route("/asignarCategoriaDestino/{id}", name="asignarCategoriaDestino")
+     * @Route("/admin/asignarCategoriaDestino/{id}", name="asignarCategoriaDestino")
      */
     public function AsignarCategoriaDestino($id){
 
@@ -117,7 +153,7 @@ class DestinoController extends AbstractController
 
 
      /**
-     * @Route("/ agregarCategoriaDestino/{id}/{id2}", name="agregarCategoriaDestino")
+     * @Route("/admin/agregarCategoriaDestino/{id}/{id2}", name="agregarCategoriaDestino")
      */
     public function AgregarCategoriaPerfil($id, $id2){
         $em = $this -> getDoctrine() -> getManager();
@@ -134,7 +170,7 @@ class DestinoController extends AbstractController
     }
 
     /**
-     * @Route("/eliminarCategoriaDestino/{id}/{id2}", name="eliminarCategoriaDestino")
+     * @Route("/admin/eliminarCategoriaDestino/{id}/{id2}", name="eliminarCategoriaDestino")
      */
     public function EliminarCategoriaPerfil($id, $id2){
         $em = $this -> getDoctrine() -> getManager();

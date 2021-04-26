@@ -1,28 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Alta Información{% endblock %}
+{% block title %}FAQS - Alta Información{% endblock %}
 
 {% block body %}
-{# <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> #}
-{{parent()}}
 
-<a class = "btn" style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verInformacion')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8;"></i></a>
-<div class ="container">
-    <div class = "container mt-5" id = "divCruds" >
-        <h1 class = "text-center  " style = "font-size: 50px;">Alta Información</h1>
+{{parent()}}
+<div class ="container" >
+    <h1 class = "text-center  " style = "font-size: 50px;">Alta Información</h1>
+    <div class = "container mt-4" id = "divCruds" >
+        <a class = "btn grow" href = "{{path('verInformacion')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8;"></i></a>
         {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-            <div class = "container mt-5 " id = "divPertenece">
+            <div class = "container mt-4 " id = "divPertenece">
                 {{ form_widget(formulario.descripcion_corta, {attr: {class: 'form-control camposEstandar', placeholder: 'Descripción Corta'}})}}
             </div>
-            <div class = "container mt-5 " id = "divPertenece">
-                <h6 class =" ml-2">Categoría secundaria a asociar...</h6>
+            <div class = "container mt-4 " id = "divPertenece">
+                <h6 class ="text-left ml-1">Categoría secundaria a asociar...</h6>
                 {{ form_widget(formulario.id_categoria_secundaria, {attr: {class: 'form-control camposEstandar'}})}}
             </div>
-            <div class = "container-fluid  mt-5 text-center"  id = "divInfoText">
+            <div class = "container-fluid  mt-4 text-center"  id = "divInfoText">
                 <label style= "color: #0F9FA8;" class = " mb-3 text-center">Explicación: </label>
                 {{ form_widget(formulario.explicacion, {attr: {class: 'form-control camposEstandar', placeholder:"Explicación", type: 'fos_ckeditor'} })}}
             </div>
-            <div class = "container mt-5 text-center">
+            <div class = "container mt-4 text-center">
                 {{ form_widget(formulario.Aceptar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
             </div>
         {{ form_end(formulario) }}
@@ -30,5 +29,5 @@
 </div>
 <br>
 <br>
-{# <script src = "{{asset('js/ckeditorJs.js')}}"></script> #}
+
 {% endblock %}

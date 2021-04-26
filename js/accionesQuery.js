@@ -2,6 +2,7 @@ $( document ).ready(function() {
     
     var divFechaCaducidad= $("#divFechaCaducidad").hide();
     var agregarFecha= $("#agregarFecha");
+    
 
 
 
@@ -9,6 +10,7 @@ $( document ).ready(function() {
     var divOpcionales= $("#divOpcionales").hide();
 
 
+    //Click check
     if( agregarFecha.attr('checked') ) {
         divFechaCaducidad.slideToggle(200);
     }
@@ -16,6 +18,8 @@ $( document ).ready(function() {
     agregarFecha.on('click', function(e) {
         divFechaCaducidad.slideToggle(200);
     });
+
+   
 
 
     if( agregarOpcionales.attr('checked') ) {
@@ -26,3 +30,4 @@ $( document ).ready(function() {
         divOpcionales.slideToggle(200);
     });
 });
+

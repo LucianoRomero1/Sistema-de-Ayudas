@@ -1,9 +1,9 @@
 function DeleteFunction(id) {
   
-    if (confirm("¡Atencion! ¡Se eliminará esta categoría y la relación/es asociadas si tiene!¿Está seguro que desea eliminar?")) {
-        window.location.href="https://intranet.unraf.edu.ar/FAQS/eliminarCategoria/"+id+"";
+    if (confirm("¡Atencion! ¡Se eliminará esta categoría y la/s relación/es asociadas si tiene!¿Está seguro que desea eliminar?")) {
+        window.location.href="https://intranet.unraf.edu.ar/FAQS/admin/eliminarCategoria/"+id+"";
     } else {
-        window.location.href="https://intranet.unraf.edu.ar/FAQS/verCategorias";
+        window.location.href="https://intranet.unraf.edu.ar/FAQS/admin/verCategorias";
     }
    
 }

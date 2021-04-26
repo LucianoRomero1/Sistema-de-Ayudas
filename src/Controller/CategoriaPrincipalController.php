@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\UserBusqueda;
+use App\Form\UserBusquedaType;
 
 //Controller general para un CRUD.
 
@@ -15,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CategoriaPrincipalController extends AbstractController
 {
     /**
-     * @Route("/altaCategorias", name="altaCategorias")
+     * @Route("/admin/altaCategorias", name="altaCategorias")
      */
     public function AltaCategorias(Request $request)
     {
@@ -89,25 +91,57 @@ class CategoriaPrincipalController extends AbstractController
 
 
     /**
-     * @Route("/verCategorias", name = "verCategorias")
+     * @Route("/admin/verCategorias", name = "verCategorias")
      */
-    public function VerCategorias()
+    public function VerCategorias(Request $request)
     {
         $manager = $this -> getDoctrine() -> getManager();
     
+
+        $form = $this -> createForm(UserBusquedaType::class, new UserBusqueda());
+        $form -> handleRequest($request);
+        $busqueda = $form -> getData();
 
         // $categoriaPP = $manager -> getRepository(CategoriaPrincipal::class)-> findAll(); 
 
         //Los acomoda por nombre 
         $categoriaPP= $manager->getRepository(CategoriaPrincipal::class)->findBy(array(), array('nombre_categoria' => 'ASC'));
 
-        return $this -> render('categoria_principal/verCategorias.html.twig', [
-            'categoria' => $categoriaPP
-        ]);
+        if($form -> isSubmitted()){
+            return $this -> render('categoria_principal/verCategorias.html.twig', [
+                'categoria' => $this -> buscarCatPP($busqueda), 'formulario' => $form -> createView()
+                ]);
+        }
+        else{
+            return $this -> render('categoria_principal/verCategorias.html.twig', [
+                'categoria' => $categoriaPP, 'formulario' => $form -> createView()
+            ]);
+        }
+     
     }
 
+    public function buscarCatPP(UserBusqueda $busqueda){
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT c
+        FROM App\Entity\CategoriaPrincipal c
+        WHERE c.nombre_categoria LIKE :nombre_categoria
+        ORDER BY c.id ASC
+        "
+        )->setParameter('nombre_categoria','%'. $busqueda->getBuscar().'%');
+        
+        
+        //Límite de resultados..
+        $query->setMaxResults(100);
+        
+        //Retorna busqueda de la compra..
+        return $query->getResult();
+    }
+
+
     /**
-     * @Route("/modificarCategoria/{id}", name = "modificarCategoria")
+     * @Route("/admin/modificarCategoria/{id}", name = "modificarCategoria")
      */
     public function ModificarCategorias(Request $request, $id){
         $manager = $this -> getDoctrine() -> getManager();
@@ -178,7 +212,7 @@ class CategoriaPrincipalController extends AbstractController
     }
 
      /**
-     * @Route("/eliminarCategoria/{id}", name = "eliminarCategoria")
+     * @Route("/admin/eliminarCategoria/{id}", name = "eliminarCategoria")
      */
     public function EliminarCategorias($id){
         $manager = $this -> getDoctrine() -> getManager();
@@ -273,8 +307,8 @@ class CategoriaPrincipalController extends AbstractController
             if ($ancho == 30 && $alto == 30 ){
                 return true;
             }else{
-                return false;
                 $this -> addFlash('error', 'El tamaño de la imagen debe ser de 30x30');
+                return false; 
             }
         }
         else{

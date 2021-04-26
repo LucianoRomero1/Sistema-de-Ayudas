@@ -1,0 +1,16 @@
+RewriteEngine On
+
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+
+  #Con esa sentencia oculta el archivo .env
+  RewriteRule ^.env$ /public/.env [L]
+
+  RewriteRule ^index\.php$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . FAQS/index.php [L]
+
+</IfModule>

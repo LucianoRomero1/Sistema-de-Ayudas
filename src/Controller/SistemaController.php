@@ -26,7 +26,15 @@ class SistemaController extends AbstractController
     {
         //Este controller muestra los perfiles
         $manager=$this->getDoctrine()->getManager();
+        
+        $usuario = $this->getUser();
+        
 
+        if($usuario != null){
+            
+            $usuario->setUltimoAcceso($this->getFechActual());
+        }
+        
         //Listar en orden segun los click y alfabeticamente (medio innecesario por alfabeto)
         $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('click' => 'DESC', 'descripcion_corta' => 'ASC'));
         
@@ -54,19 +62,23 @@ class SistemaController extends AbstractController
 
         // $perfiles = $manager -> getRepository(PerfilSolicitante::class) -> findAll();
 
-        return $this->render('sistema/index.html.twig',
+        return $this->render('sistema/index2.html.twig',
                 ['perfil' => $perfiles]
-            );
+        );
     }
 
     /**
-     * @Route("/sistema", name="sistema")
+     * @Route("/lector/sistema", name="sistema")
      */
     public function Home()
     {
         //Este controller muestra los perfiles
         $manager=$this->getDoctrine()->getManager();
-      
+        
+        $usuario = $this->getUser();
+        if($usuario != null){
+            $usuario->setUltimoAcceso($this->getFechActual());
+        }
      
            
         
@@ -288,6 +300,7 @@ class SistemaController extends AbstractController
                             return $this -> render('contacto/formularioContacto.html.twig', [
                                 'formulario' => $formulario -> createView(),
                                 'idCatPP' => $idCatPP,
+                                'idCatSec' =>$idCatSec,
                                 'idPerfil' => $idPerfil,
                                 'perfil' => $perfil,
                                 'catPP' => $catPP,
@@ -299,9 +312,10 @@ class SistemaController extends AbstractController
             }
             else{
                 $this -> addFlash('error', 'Máximo 5 archivos');
-                return $this -> render('contacto/formularioContacto2.html.twig', [
+                return $this -> render('contacto/formularioContacto.html.twig', [
                     'formulario' => $formulario -> createView(),
                     'idCatPP' => $idCatPP,
+                    'idCatSec' =>$idCatSec,
                     'idPerfil' => $idPerfil,
                     'perfil' => $perfil,
                     'catPP' => $catPP,
@@ -327,7 +341,7 @@ class SistemaController extends AbstractController
                 $mailer = new \Swift_Mailer($transport);
 
                 $message = (new \Swift_Message('Hello'))
-                ->setSubject('Sistema de Ayudas')
+                ->setSubject('Sistema de Ayudas - (no responder a este email)')
                 ->setFrom('hello@example.com')
                 ->setTo($destino -> getEmail())
                 ->setBody(
@@ -336,18 +350,21 @@ class SistemaController extends AbstractController
                     '<div>' .
                         '<h2 style="color:#0F9FA8;text-align:center;">Sistema de Ayudas</h2>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Nombre </span> :' . $contacto -> getNombre() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Apellido </span> :' . $contacto -> getApellido() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">DNI </span> :' . $contacto -> getDni() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Nombre: </span> ' . $contacto -> getNombre() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Apellido: </span> ' . $contacto -> getApellido() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">DNI: </span> ' . $contacto -> getDni() . '</h4>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Fecha </span> :' . $this -> getFechActualString() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Motivo del contacto </span> :' . $contacto -> getMotivoContacto() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Fecha: </span>' . $this -> getFechActualString() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Motivo del contacto: </span> ' . $contacto -> getMotivoContacto() . '</h4>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Perfil Solicitante </span> :' . $perfil -> getDescripcionCorta() .'</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Categoria Principal </span> :' . $catPP -> getNombreCategoria() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Categoria Secundaria </span> :' . $catSec -> getNombreCategoria() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Perfil Solicitante: </span> ' . $perfil -> getDescripcionCorta() .'</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Categoria Principal: </span> ' . $catPP -> getNombreCategoria() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Categoria Secundaria: </span> ' . $catSec -> getNombreCategoria() . '</h4>' .
                         
                     '</div>' .
+                    '<footer>'.
+                        '<h5 style = "color: black;">*No responder a este email</h5>'.
+                    '</footer>'.
                     ' </body>' .
                     '</html>',
                       'text/html' // Mark the content-type as HTML
@@ -363,7 +380,7 @@ class SistemaController extends AbstractController
                 $mailer->send($message);
                 
             
-                $mailer->send($message);
+                
                 
                 foreach($archivosAdjuntos as $archivo){
                     unlink('uploads/archivos/' . $archivo -> getNombreArchivo());
@@ -485,8 +502,8 @@ class SistemaController extends AbstractController
                 $mailer = new \Swift_Mailer($transport);
 
                 $message = (new \Swift_Message('Hello'))
-                ->setSubject('Sistema de Ayudas')
-                ->setFrom('hello@example.com')
+                ->setSubject('Sistema de Ayudas - (no responder a este email)')
+                ->setFrom('Intranet@unraf.edu.ar')
                 ->setTo($destino -> getEmail())
                 
                 ->setBody(
@@ -495,17 +512,20 @@ class SistemaController extends AbstractController
                     '<div>' .
                         '<h2 style="color:#0F9FA8;text-align:center;">Sistema de Ayudas</h2>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Nombre </span> :' . $contacto -> getNombre() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Apellido </span> :' . $contacto -> getApellido() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">DNI </span> :' . $contacto -> getDni() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Nombre: </span> ' . $contacto -> getNombre() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Apellido: </span> ' . $contacto -> getApellido() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">DNI: </span> ' . $contacto -> getDni() . '</h4>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Fecha </span> :' . $this -> getFechActualString() . '</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Motivo del contacto </span> :' . $contacto -> getMotivoContacto() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Fecha: </span> ' . $this -> getFechActualString() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Motivo del contacto: </span> ' . $contacto -> getMotivoContacto() . '</h4>' .
                         '<hr>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Perfil Solicitante </span> :' . $perfil -> getDescripcionCorta() .'</h4>' .
-                        ' <h4 style = "color: black;"><span style = "color: #1503ba; text-decoration: underline;">Categoria Principal </span> :' . $catPP -> getNombreCategoria() . '</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Perfil Solicitante: </span> ' . $perfil -> getDescripcionCorta() .'</h4>' .
+                        ' <h4 style = "color: black;"><span style = "color: #0F9FA8; text-decoration: underline;">Categoria Principal: </span> ' . $catPP -> getNombreCategoria() . '</h4>' .
                         
                     '</div>' .
+                    '<footer>'.
+                        '<h5 style = "color: black;">*No responder a este email</h5>'.
+                    '</footer>'.
                     ' </body>' .
                     '</html>',
                     'text/html' // Mark the content-type as HTML

@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Asignar Categoria{% endblock %}
+{% block title %}FAQS - Asignar Categoria{% endblock %}
 
 {% block body %}
-    {{parent()}}
-    <a class = "btn " style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verDestino')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8;"></i></a>
-    <h1 class = "text-center mt-4" style = "text-transform: uppercase;" id = "textoAsignar">Email - {{destino.email}}</h1>
-    <div class = "container mt-5">
-        <div class = "container mt-5" id = "divCruds" >
-            <h3 class = "text-info ">Categorias Principales asignadas</h3>
+{{parent()}}
+<div class = "container">
+    
+    <h1 class = "text-center " style = "text-transform: uppercase;" id = "textoAsignar">Email - {{destino.email}}</h1>
+    <div class = "container">
+        <div class = "container mt-4" id = "divCruds" >
+            <a class = "btn grow"  href = "{{path('verDestinos')}}"><i class="fas fa-arrow-left" style = "font-size: 30px; color: #0F9FA8;"></i></a>
+            <h3 class = "text-info mt-4">Categorias Principales asignadas</h3>
             <table class = "table table-bordered mt-4 ">
                 <thead>
                     <tr>
@@ -26,7 +28,7 @@
                                 <td>{{ loop.index }}</td>
                                 <td>{{catDestino.nombreCategoria}}</td>
                                 <td>{{catDestino.descripcionCategoria}}</td>
-                                <td class = "text-center"><a class ="btn" onclick = "DeleteFunctionDestino({{catDestino.id}}, {{destino.id}})"  style="color:red;"><i class="material-icons">clear</i></a></td>
+                                <td class = "text-center"><a class ="btn grow" onclick = "DeleteFunctionDestino({{catDestino.id}}, {{destino.id}})"  style="color:red;"><i class="material-icons">clear</i></a></td>
                             </tr>
                     
                     {% else %}
@@ -58,7 +60,7 @@
                                 <td>{{ loop.index }}</td>
                                 <td>{{catResto.nombreCategoria}}</td>
                                 <td>{{catResto.descripcionCategoria}}</td>
-                                <td class = "text-center"><a class="btn" href="{{path('agregarCategoriaDestino', {'id': catResto.id,'id2': destino.id})}}" style="color:green;" ><i class="material-icons">add</i></a></td>
+                                <td class = "text-center"><a class="btn grow" href="{{path('agregarCategoriaDestino', {'id': catResto.id,'id2': destino.id})}}" style="color:green;" ><i class="material-icons">add</i></a></td>
                             </tr>
                         {% endif %}
                     {% endif %}
@@ -68,6 +70,8 @@
             <br>
         </div>
     </div>
-    <script src = "{{asset('js/asignarCategorias.js')}}"></script>
-
+</div>
+<br>
+<br>
+<script src = "{{asset('js/asignarCategorias.js')}}"></script>
 {% endblock %}

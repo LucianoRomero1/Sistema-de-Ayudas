@@ -1,87 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formulario Contacto{% endblock %}
+{% block title %}FAQS - Formulario Contacto{% endblock %}
 
 {% block body %}
 {{parent()}}
-<div class ="container mt-5">
- {# //Esta flechita es para el celu #}
-    <a class = "btn mb-1" href ="{{path('informacion', {'id': idCatSec,'idPerfil': idPerfil, 'idCatPP': idCatPP})}}"><i class="fas fa-arrow-left mt-1" style = "font-size: 25px; color: #0F9FA8" id = "flechitaAtras"></i></a>
-    <div class "container" id = "divCaminito">
-        <a href = "{{path('sistema')}}"class = "" style = "font-size: 18px; color: #0F9FA8;">INICIO</a> /
-        {# <a class = "btn mb-1" href ="{{path('informacion', {'id': idCatSec,'idPerfil': idPerfil, 'idCatPP': idCatPP})}}"><i class="fas fa-arrow-left text-secondary mt-1" style = "font-size: 18px; "></i></a> #}
-        <a class = " text-center d-inline ml-1" style = "color: #0F9FA8;" id = "TextInfo1" href = "{{path('categoriaPrincipal', {'id': idPerfil})}}" >{{perfil.descripcionCorta}}</a> /
-        <a class = " text-center ml-1" style = "color: #0F9FA8;" id = "TextInfo2" href ="{{path('categoriaSecundaria', {'id': idCatPP,'idPerfil': idPerfil})}}" >{{catPP.nombreCategoria}}</a> /
-        <a class = " text-center ml-1" style = "color: #0F9FA8;" id = "TextInfo3" href ="{{path('informacion', {'id': idCatSec,'idPerfil': idPerfil, 'idCatPP': idCatPP})}}">{{catSec.nombreCategoria}}</a> / 
-        <a class = "text-secondary text-center ml-1" href = "#" style = "font-size: 18px;">CONTACTO</a>
-    </div>
+<div class ="container mt-3" id = "fondoBlanco">
     
     {# <a class = " text-secondary" style = "text-decoration: none;font-size: 25px;text-transform: uppercase;"  style = "margin-left: 30px; margin-top: 40px;" href = "{{path('sistema')}}"> Inicio</a> #}
-    <h1 class = "text-center  mt-5" style = "font-size: 50px;">Contáctese con Nosotros</h1>
-    <div class = "container mt-5"  id ="divContacto">
-    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-        <div class = "container mt-5" id = "divDNI">
+    <h1 class = "text-center" style = "font-size: 50px;">Contáctese con Nosotros</h1>
+    <div class = "container mt-4"  id ="divContacto">
+        <a class = "btn  grow" href ="{{path('informacion', {'id': idCatSec,'idPerfil': idPerfil, 'idCatPP': idCatPP})}}"><i class="fas fa-arrow-left mt-1" style = "font-size: 25px; color: #0F9FA8"></i></a>
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+        <div class = " mt-4 formContacto" id = "">
             <b class = "text-warning" style = "font-size:20px;">*<b>
             {{ form_widget(formulario.nombre, {attr: {class: 'form-control camposEstandar',  placeholder: 'Ingrese su nombre'}})}}
         </div>
-        <div class = "container mt-5" id = "divDNI">
+        <div class = " mt-4 formContacto" id = "">
             <b class = "text-warning" style = "font-size:20px;">*<b>
             {{ form_widget(formulario.apellido, {attr: {class: 'form-control camposEstandar', placeholder: 'Ingrese su apellido'}})}}  
         </div>
-        <div class = "container mt-5 text-center"  id = "divPertenece">
-            <b class = "text-warning" id = "asteriscoEmail" style = "font-size:20px;">*<b>
+         <div class = " mt-4 formContacto" id = "">
+            <b class = "text-warning" style = "font-size:20px;">*<b>
             {{ form_widget(formulario.email, {attr: {class: 'form-control camposEstandar', placeholder: 'Ingrese su email'}})}}
         </div> 
-        <div class = "container mt-5 text-center" id = "formMotivo">
+        <div class = " mt-4 formContacto" id = "">
             <h6 class ="text-warning ml-2" id = "minimoCaracter">*Mínimo 30 caracteres</h6>
             {{ form_widget(formulario.motivo_contacto, {attr: {class: 'form-control camposEstandar', placeholder: 'Motivo del contacto'}})}}
         </div>   
-        <div class = "text-center mt-5">
+        <div class = "mt-4 text-center">
             <h3 class = ""> Agregar datos opcionales </h3>
-            <input id = "agregarOpcionales" type = "checkbox">
+            <input id = "agregarOpcionales" class = "grow" type = "checkbox">
         </div>
         <div id = "divOpcionales" class = "container">
-            <div class = " row mt-5 justify-content-center">
-                <div class = "col-sm-2 mb-3" id = "codArea">
-                    <h6 class =" text-center">*Cod. Área</h6>
-                   {{ form_widget(formulario.codigoArea, {attr: {class: 'form-control camposEstandar', placeholder: '', id: 'telefonoContacto'}})}}
+            <div class = "row mt-4">
+                <div class = "col-sm-3"></div>
+                <div class = "col-sm-3">
+                    {{ form_widget(formulario.codigoArea, {attr: {class: 'form-control camposEstandar', placeholder: 'Código de área'}})}}
                 </div>
-                <div class = "col-sm-3" id = "telefono">
-                <h6 class =" text-center">*Teléfono sin 15</h6>
-                    {{ form_widget(formulario.telefono, {attr: {class: 'form-control camposEstandar', placeholder: '', id: 'telefonoContacto'}})}}
+                <div class = "col-sm-3">
+                    {{ form_widget(formulario.telefono, {attr: {class: 'form-control camposEstandar', placeholder: 'Nº teléfono'}})}}
                 </div>
-             
             </div>
-            
-            <div class = "text-center container mt-5" id = "divDNI">
-                <h6 class ="">*Ingrese sólo numeros sin puntos ni espaciado</h6>
-                {{ form_widget(formulario.dni, {attr: {class: 'form-control camposEstandar', placeholder: 'DNI', id: 'DNI'}})}}
+            <div class = "row mt-4">
+                <div class = "col-sm-3"></div>
+                <div class = "col-sm-3">
+                    {{ form_widget(formulario.dni, {attr: {class: 'form-control camposEstandar', placeholder: 'DNI sin puntos'}})}}
+                </div>
+                 <div class = "col-sm-3">
+                    {{form_widget ( formulario.documento , { attr : { accept : ' application / .jpg , .png, .pdf, .bmp, .doc, .docx, .gif, .jpeg', title: '*Máximo 5MB por archivo. 5 archivos máximo'}})}}
+                </div>
             </div>
-            <div class = "text-center container mt-5" id = "divDNI">
-                <h6 class ="">*Máximo 5MB por archivo. Se puede seleccionar mas de uno hasta 5</h6>
-                {{form_widget ( formulario.documento , { attr : { accept : ' application / .jpg , .png, .pdf, .bmp, .doc, .docx, .gif, .jpeg' }})}}
-            </div>
-
-
         </div>
+        <br>
         <hr>
-        <div class = "row mt-5 justify-content-center">
+        <div class = "row mt-4 justify-content-center">
             <div class = "col"></div>
             <div class = "col">
-                <div class="g-recaptcha" data-sitekey="6LfM9DUaAAAAAIIBa9tNK0uv5t7gS2SFHi-0Y0sz" data-callback="enabledSubmit" ></div> 
+                <div class="g-recaptcha" data-sitekey="6LfM9DUaAAAAAIIBa9tNK0uv5t7gS2SFHi-0Y0sz" data-callback="enabledSubmit" ></div>
+                <h6 class = "text-danger text-left mt-3" id = "textCaptcha"> Por favor verifique el captcha para poder enviar su consulta </h6> 
             </div>
             <div class = "col"></div>
         </div>
-        {# <div class = "container mt-5 "  id = "captcha">
-            <div class="g-recaptcha" data-sitekey="6LfM9DUaAAAAAIIBa9tNK0uv5t7gS2SFHi-0Y0sz" data-callback="enabledSubmit" ></div> 
-        </div> #}
-        <h6 class = "text-danger text-center mt-3" id = "textCaptcha"> Por favor verifique el captcha para poder enviar su consulta </h6>
-        <div class = "container mt-5 text-center" id = "divEnviar">
+        <div class = "container mt-4 text-center" id = "divEnviar">
             {{ form_widget(formulario.Enviar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
         </div>
-      
-    {{ form_end(formulario) }}
-
+        {{ form_end(formulario) }}
     <br>
     <br>
     </div>
@@ -94,6 +77,5 @@
 {{parent()}}
 <script src = "{{asset('js/validacionesExtras.js')}}"></script>
 <script src = "{{asset('js/animaciones.js')}}"></script>
-<script src = "{{asset('js/accionesQuery.js')}}"></script>
 {% endblock %}
 {% endblock %}

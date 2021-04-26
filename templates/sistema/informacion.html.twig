@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Información{% endblock %}
+{% block title %}FAQS - Información{% endblock %}
 
 {% block body %}
     {{parent()}}
-    <div class ="container mt-5">
+    <div class ="container mt-3">
         {# //Esta flechita es para el celu y el div es para la PC#}
         <a href = "{{path('sistema')}}" class = "ml-3"style = "font-size: 25px;" id = "flechitaAtras"><i class="fas fa-home text-secondary"></i></a> 
         <a class = "ml-2" href ="{{path('categoriaSecundaria', {'id': idCatPP,'idPerfil': idPerfil})}}"><i class="fas fa-arrow-left text-secondary" style = "font-size: 25px; " id = "flechitaAtras"></i></a>
@@ -19,7 +19,7 @@
         <div class = "container mt-5"> 
             <h1 style="color: #FEB413;">Información</h1>  
         </div>
-        <div class = "container mt-5" id = "divInfo">  
+        <div class = "container mt-4" id = "divInfo">  
            
             {#  {{info.explicacion|raw}}      raw es para que el html cuando lo das de alta se vea bien     #}
             {# {{info.explicacion}} #}
@@ -33,7 +33,7 @@
         </div>
         <div class = "container mt-5 text-center">
             <h2  style = "font-size: 30px; color:#0F9FA8;">¿Fue útil la información?¡Contactáte con nosotros!</h2>
-            <a id = "contactoPC2" class = "btn btn-outline-info mt-3 " style ="width: 200px; font-size: 20px;" href ="{{path('formularioContacto', {'idPerfil': idPerfil, 'idCatPP': idCatPP, 'idCatSec': idCatSec})}}">Contacto<i class="fas fa-address-card ml-3 " style = "font-size: 20px;"></i></a>
+            <a id = "contactoPC2" class = "btn btn-outline-info mt-3 " style ="width: 200px; font-size: 20px;box-shadow: 1px 1px 2px #888888;" href ="{{path('formularioContacto', {'idPerfil': idPerfil, 'idCatPP': idCatPP, 'idCatSec': idCatSec})}}">Contacto<i class="fas fa-address-card ml-3 " style = "font-size: 20px;"></i></a>
         </div>
         
         <br>

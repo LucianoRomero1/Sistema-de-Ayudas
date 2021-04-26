@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\PerfilSolicitante;
 use App\Form\PerfilSolicitanteType;
 use App\Entity\CategoriaPrincipal;
+use App\Entity\UserBusqueda;
+use App\Form\UserBusquedaType;
+
+
+
 
 
 
@@ -16,7 +21,7 @@ use App\Entity\CategoriaPrincipal;
 class PerfilSolicitanteController extends AbstractController
 {
     /**
-     * @Route("/altaPerfiles", name="altaPerfiles")
+     * @Route("/admin/altaPerfiles", name="altaPerfiles")
      */
     public function AltaPerfiles(Request $request)
     {
@@ -98,24 +103,57 @@ class PerfilSolicitanteController extends AbstractController
 
 
       /**
-     * @Route("/verPerfiles", name="verPerfiles")
+     * @Route("/admin/verPerfiles", name="verPerfiles")
      */
-    public function VerPerfiles(){
+    public function VerPerfiles(Request $request){
         $em = $this -> getDoctrine() -> getManager();
 
+        $form = $this -> createForm(UserBusquedaType::class, new UserBusqueda());
+        $form -> handleRequest($request);
+        $busqueda = $form -> getData();
 
         // $perfiles = $em -> getRepository(PerfilSolicitante::class) -> findAll();
         //Los acomoda por nombre
         $perfiles= $em->getRepository(PerfilSolicitante::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
     
-
-        return $this -> render('perfil_solicitante/verPerfiles.html.twig', [
-            'perfil' => $perfiles
-        ]);
+   
+        if($form -> isSubmitted()){
+            return $this -> render('perfil_solicitante/verPerfiles.html.twig', [
+                'perfil' => $this -> buscarPerfil($busqueda), 'formulario' => $form -> createView()
+                ]);
+        }
+        else{
+            return $this -> render('perfil_solicitante/verPerfiles.html.twig', [
+                'perfil' => $perfiles, 'formulario' => $form -> createView()
+                ]);
+        }
+        
     }
 
+    public function buscarPerfil(UserBusqueda $busqueda){
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT p
+        FROM App\Entity\PerfilSolicitante p
+        WHERE p.descripcion_corta LIKE :descripcion_corta
+        ORDER BY p.id ASC
+        "
+        )->setParameter('descripcion_corta','%'. $busqueda->getBuscar().'%');
+        
+        
+        //Límite de resultados..
+        $query->setMaxResults(100);
+        
+        //Retorna busqueda de la compra..
+        return $query->getResult();
+    }
+
+
+
+
     /**
-     * @Route("/modificarPerfiles/{id}", name="modificarPerfiles")
+     * @Route("/admin/modificarPerfiles/{id}", name="modificarPerfiles")
      */
     public function ModificarPerfiles(Request $request, $id){
         $em = $this -> getDoctrine() -> getManager();
@@ -190,7 +228,7 @@ class PerfilSolicitanteController extends AbstractController
     }
 
     /**
-     * @Route("/eliminarPerfiles/{id}", name="eliminarPerfiles")
+     * @Route("/admin/eliminarPerfiles/{id}", name="eliminarPerfiles")
      */
     public function EliminarPerfiles($id){
         $em = $this -> getDoctrine() -> getManager();
@@ -208,7 +246,7 @@ class PerfilSolicitanteController extends AbstractController
 
     //Asignacion de categorias principales a los perfiles
     /**
-     * @Route("/asignarCategorias/{id}", name="asignarCategorias")
+     * @Route("/admin/asignarCategorias/{id}", name="asignarCategorias")
      */
     public function AsignarCategorias($id){
 
@@ -231,7 +269,7 @@ class PerfilSolicitanteController extends AbstractController
 
 
      /**
-     * @Route("/ agregarCategoriaPerfil/{id}/{id2}", name="agregarCategoriaPerfil")
+     * @Route("/admin/agregarCategoriaPerfil/{id}/{id2}", name="agregarCategoriaPerfil")
      */
     public function AgregarCategoriaPerfil($id, $id2){
         $em = $this -> getDoctrine() -> getManager();
@@ -248,7 +286,7 @@ class PerfilSolicitanteController extends AbstractController
     }
 
     /**
-     * @Route("/eliminarCategoriaPerfil/{id}/{id2}", name="eliminarCategoriaPerfil")
+     * @Route("/admin/eliminarCategoriaPerfil/{id}/{id2}", name="eliminarCategoriaPerfil")
      */
     public function EliminarCategoriaPerfil($id, $id2){
         $em = $this -> getDoctrine() -> getManager();
@@ -269,7 +307,6 @@ class PerfilSolicitanteController extends AbstractController
                 
         return $fechaActual;
         
-       
     }
 
     public function getAnioValido($fecha){

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQS - Bienvenido{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class = " container mt-3"> 
+        <div class = "text-center">
+                <a href = "{{path('sistema')}}" style = "text-decoration: none;">
+                        <img class = "mb-4" src = "{{asset('img/iconoUnraf.png')}}" id = "icono" width="60" height="60" alt="iconoUnraf" > 
+                        <h1 style="font-size:50px; display:inline; color: #0F9FA8; "class = "text-center " >Sistema de Ayuda </h1>
+                </a>
+        </div>  
+        <br>
+        <form class = "row" >
+                <div class = "col-sm-6 " id = "ParteComunidad">
+                        <div class = "container">
+                                <div class = " list-group container" id = "CatPerfilDiv">  
+                                        <p id = "bordeP" class = "list-group-item list-group-item-action text-left text-white" style = "background-color: #0F9FA8;">Pertenezco a la comunidad de UNRAf y necesito ayuda como </p>
+                                </div>
+                                <div class = "list-group container" id = "ListaPerfiles">
+                                {% for perfiles in perfil %}
+                                        
+                                        {% if  perfiles.comunidadUnraf == 'Pertenece' %}
+                                                {% if perfiles.publicado == "Publicado" %}
+                                                        {% if perfiles.icono != null and perfiles.icono != "" %}
+                                                                <a id="borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}"><img src="{{asset(('uploads/iconos/'~ perfiles.icono))}}" style="width:22px;margin-bottom:5px;margin-right: 10px;" class=" imagenSistema ">{{perfiles.descripcionCorta}}</a>   
+                                                        {% else %}
+                                                                <a id="borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}">{{perfiles.descripcionCorta}}</a>   
+                                                        {% endif %}
+                                                {% endif %}
+                                        {% endif %}             
+                                {% endfor %}
+                                </div>
+                        </div>
+                      
+                </div>
+                <div class = "col-sm-6 " id ="NoParteComunidad" >
+                        <div class="container">
+                                <div class = "list-group container" id ="CatPerfilDivR">  
+                                        <p id = "bordeP" class = "list-group-item list-group-item-action text-left text-white" style = "background-color: #0F9FA8;">No pertenezco a la comunidad de UNRAf y tengo interés en</p>
+                                </div>
+                                <div class="list-group container" id="ListaPerfilesR">
+                                        {% for perfiles in perfil %}
+                                                {% if  perfiles.comunidadUnraf == 'No Pertenece' %}
+                                                        {% if perfiles.publicado == "Publicado" %}
+                                                                        {% if perfiles.icono != null and perfiles.icono != "" %}
+                                                                                
+                                                                        <a id = "borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}"><img src="{{asset(('uploads/iconos/'~ perfiles.icono))}}" style="width:22px;margin-bottom:5px;margin-right: 10px;" class=" imagenSistema">{{perfiles.descripcionCorta}}</a>   
+                                                                {% else %}
+                                                                        
+                                                                        <a id = "borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}">{{perfiles.descripcionCorta}}</a>   
+                                                                {% endif %}
+                                                        {% endif %}
+                                                {% endif %}             
+                                        {% endfor %}
+                                </div>
+                        </div>
+                </div>    
+        </form>
+
+
+</div>
+<br>
+<br>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/animaciones.js')}}"></script>
+<script src = "{{asset('js/popup.js')}}"></script>
+{% endblock %}
+{% endblock %}

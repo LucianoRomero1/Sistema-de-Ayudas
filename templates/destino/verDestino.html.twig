@@ -1,31 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ver Destino{% endblock %}
+{% block title %}FAQS - Ver Destinos{% endblock %}
 
 {% block body %}
 {{parent()}}
-
-<table class="table table-borderless">
-    <thead>
-            <tr style = "background-color: #0F9FA8;">
-            <th>Nro</th>
-            <th>Email</th>
-            <th style="text-align: center;">ASIGNAR CATEGORÍAS PRINCIPALES</th>
-            <th style="text-align: center;">EDITAR</th>
-            <th style="text-align: center;">ELIMINAR</th>
-        </tr>
-    </thead>
-    <tbody id="myTable">
-        {% for dest in destino %}
-        <tr>
-            <th>{{loop.index }}</th>
-            <td>{{dest.email}}</td>
-            <td style="text-align: center;"><a class ="btn" href="{{path ('asignarCategoriaDestino', {'id' : dest.id})}}" ><i class="fas fa-people-arrows text-info" style = "font-size: 20px;"></i></a></td>
-            <td style="text-align: center;"><a class ="btn" href="{{path ('modificarDestino', {'id': dest.id})}}"><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
-            <td style="text-align: center;"><a class = "btn" onclick="DeleteFunction({{dest.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table> 
+<div class = "container-fluid">
+    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+    <div class = "container row mt-3">
+        <div class = "col-sm-7 media">
+            {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Buscar por email..'} }) }}  
+            {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar d-inline'} }) }}  
+        </div>
+        <div class = "col-sm-3"></div>
+        <div class = "col-sm-2">
+            <a class = "btn form-control campoForm nueva" style = "" href = "{{path('altaDestino')}}">Nuevo destino</a>
+        </div>
+    </div>
+    <hr>
+    <div class = "m-3">
+        <b style = "color: #0F9FA8;">Cantidad de destinos: {{destino|length}} </b>
+    </div>
+    {{ form_end(formulario) }}
+    <table class="table table-borderless">
+        <thead class = "text-white">
+                <tr style = "background-color: #0F9FA8;">
+                <th>Nro</th>
+                <th>Email</th>
+                <th style="text-align: center;">ASIGNAR CATEGORÍAS PRINCIPALES</th>
+                <th style="text-align: center;">EDITAR</th>
+                <th style="text-align: center;">ELIMINAR</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for dest in destino %}
+            <tr>
+                <th>{{loop.index }}</th>
+                <td>{{dest.email}}</td>
+                <td style="text-align: center;"><a class ="btn grow" href="{{path ('asignarCategoriaDestino', {'id' : dest.id})}}" data-toggle="tooltip" data-placement="left" data-html="true" title="Asignar a {{dest.email}} categorías principales"><i class="fas fa-people-arrows text-info" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class ="btn grow" href="{{path ('modificarDestino', {'id': dest.id})}}"><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class = "btn grow" onclick="DeleteFunction({{dest.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+</div>
+<br>
 <script src = "{{asset('js/verDestino.js')}}"></script>
+{% block javascripts %}
+{{parent()}}
+<script src = "{{asset('js/popup.js')}}"></script>
+{% endblock %}
 {% endblock %}

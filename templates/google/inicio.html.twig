@@ -1,31 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login - FAQS{% endblock %}
-
+{% block title %}FAQS - Login {% endblock %}
 {% block body %}
-
-    <div class = "container mt-5">
-        <div class = "text-center">
-            <img class = "mb-4" src = "{{asset('img/iconoUnraf.png')}}" width="60" height="60" alt="iconoUnraf" id = "icono"> 
-            <h1 style="font-size:50px; display:inline "class = "text-center  ">Bienvenido al Sistema FAQS </h1>
-           
-        </div>  
-        <div class="container text-center mt-5" style = "padding: 50px; box-shadow: 2px 3px 5px #888888;">
-            <div class="text-center">
-                <h1  style = "font-size: 45px;">LOGIN</h1>
-                <h6 class = "text-secondary"> *Sólo correo institucionales </h6>
-                <a class="btn p-2 mt-4 btn-lg"  href="{{ path('connect_google_start') }}"><img src = "{{asset('img/loginGoogle.png')}}" width = "100"></a>        
+<div class = "container mt-5">
+    <div class = "text-center container" >
+        {# <h1 style="font-size:50px; display:inline "class = "text-center  ">Bienvenido al Sistema FAQS </h1> #}
+        <img class = "" src = "{{asset('img/LogoUnraf.png')}}" width = "400" alt = "LogoUnraf" id = "imgLogin">
+    </div>  
+    <div class="container text-center mt-5" style = "width: 75%; border-radius: 25px; padding: 50px; box-shadow: 2px 3px 5px #888888; background-color : white">
+        <div class="text-center container">
+            <div class = "container">
+                <h1 class= "d-inline" style = "font-size: 45px; color: #0F9FA8;">LOGIN</h1>
+                <img class = "mb-4" src = "{{asset('img/iconoUnraf.png')}}" width="60" height="60" alt="iconoUnraf" id = "icono"> 
             </div>
-             <div class = "text-center mt-5">
-                <i class="fas fa-caret-right text-info mr-2" style = "font-size: 20px;"></i><a href = "{{path('sistema')}}" class = "text-info" style = "text-decoration: none;">Ver como usuario final</a><i class="ml-2 fas fa-caret-left text-info" style = "font-size: 20px;"></i>
-            </div>
+            <div class = "container ">
+                <a href="{{ path('connect_google_start') }}" data-toggle="tooltip" data-placement="right" data-html="true" title="*Sólo correo institucionales"><img class = "grow" src = "{{asset('img/userLock.jpg')}}" width = "120" ></a>    
+            </div>      
         </div>
-       
- 
- 
-  
-
-
-
-
+        <div class = "text-center mt-5 container grow">
+            <i class="fas fa-caret-right mr-2 " style = "font-size: 20px; color: #0F9FA8;"></i><a href = "{{path('invitado')}}" class = "growTwo" style = "text-decoration: none; color: #0F9FA8;">VER COMO USUARIO FINAL</a><i class="ml-2 fas fa-caret-left " style = "font-size: 20px; color: #0F9FA8;"></i>
+        </div>
+</div>
+{% endblock %}
+{% block  javascripts %}
+{{parent()}}
+<script src = "{{asset('js/popup.js')}}"></script>
 {% endblock %}

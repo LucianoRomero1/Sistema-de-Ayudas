@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenido!{% endblock %}
+{% block title %}FAQS - Bienvenido{% endblock %}
 
 {% block body %}
 {{parent()}}
-<div class = "marginTop container mt-5"> 
+<div class = "container mt-3"> 
+        {% if '@unraf.edu.ar' in app.user.email and app.user.roles|last == "ROLE_LECTOR" %}
+                {# Si tu email es de unraf y tu último rol encontrado es lector #}
+                <div class = "grow" id = "volverIntranet">
+                {# <a class = "grow" href = "{{path('backIntranet')}}" id = "volverIntranet" style = "text-decoration: none;" ><b class ="grow" style = "color:#FEB413;"><i class="fas fa-hand-point-left mr-2 grow"></i>Intranet</b></a> #}
+                        <b><a  href = "{{path('backIntranet')}}" style = "text-decoration: none;color:#FEB413;"><i class="fas fa-hand-point-left mr-2 "></i>Intranet</a></b>
+                </div>
+        {% endif %}
         <div class = "text-center">
-                <img class = "mb-4" src = "{{asset('img/iconoUnraf.png')}}" id = "icono" width="60" height="60" alt="iconoUnraf" > 
-                <h1 style="font-size:50px; display:inline; color: #0F9FA8; "class = "text-center " >Sistema de Ayuda </h1>
-                
+                <a href = "{{path('sistema')}}" style = "text-decoration: none;">
+                        <img class = "mb-4" src = "{{asset('img/iconoUnraf.png')}}" id = "icono" width="60" height="60" alt="iconoUnraf" > 
+                        <h1 style="font-size:50px; display:inline; color: #0F9FA8; "class = "text-center " >Sistema de Ayuda </h1>
+                </a>
         </div>  
         <br>
         <form class = "row" >
                 <div class = "col-sm-6 " id = "ParteComunidad">
                         <div class = "container">
                                 <div class = " list-group container" id = "CatPerfilDiv">  
-                                        <p class = "list-group-item list-group-item-action text-center text-white" style = "background-color: #0F9FA8;">Pertenezco a la comunidad de UNRAf y necesito ayuda como:</p>
+                                        <p id = "bordeP" class = "list-group-item list-group-item-action text-left text-white" style = "background-color: #0F9FA8;">Pertenezco a la comunidad de UNRAf y necesito ayuda como </p>
                                 </div>
                                 <div class = "list-group container" id = "ListaPerfiles">
                                 {% for perfiles in perfil %}
@@ -35,22 +43,9 @@
                       
                 </div>
                 <div class = "col-sm-6 " id ="NoParteComunidad" >
-                        {# <div class = "container form-group mt-5 text-center">
-                                <h5> No soy parte de la comunidad UNRaf y tengo interés en: </h5>
-                        </div>
-                        <div class = "container form-group mt-5 text-center">
-                                <select class="form-control" id="FormControlSelect1" onchange = "location = this.value;">
-                                <option value = ""> Seleccione una opcion... </option> 
-                                {% for perfiles in perfil %}
-                                        {% if perfiles.comunidadUnraf == 'No Pertenece' %}
-                                                <option style = "text-transform: uppercase;" value = "{{path('categoriaPrincipal', {'id': perfiles.id})}}">{{perfiles.descripcionCorta}}</option> 
-                                        {% endif %}    
-                                {% endfor %}                                 
-                                </select>
-                        </div>  #}
                         <div class="container">
                                 <div class = "list-group container" id ="CatPerfilDivR">  
-                                        <p class = "list-group-item list-group-item-action text-center text-white" style = "background-color: #0F9FA8;">No pertenezco a la comunidad de UNRAf y tengo interés en:</p>
+                                        <p id = "bordeP" class = "list-group-item list-group-item-action text-left text-white" style = "background-color: #0F9FA8;">No pertenezco a la comunidad de UNRAf y tengo interés en</p>
                                 </div>
                                 <div class="list-group container" id="ListaPerfilesR">
                                         {% for perfiles in perfil %}
@@ -68,9 +63,6 @@
                                         {% endfor %}
                                 </div>
                         </div>
-                               
-                        
-                       
                 </div>    
         </form>
 

@@ -1,13 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ver Categorias PP{% endblock %}
+{% block title %}FAQS - Ver Categorias PP{% endblock %}
 
 {% block body %}
 {{parent()}}
-
-<table class="table table-borderless">
-        <thead>
-             <tr style = "background-color: #0F9FA8;">
+<div class = "container-fluid">
+    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+    <div class = "container row mt-3">
+        <div class = "col-sm-7 media">
+            {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Buscar por nombre..'} }) }}  
+            {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar d-inline'} }) }}  
+        </div>
+        <div class = "col-sm-3"></div>
+        <div class = "col-sm-2">
+            <a class = "btn form-control campoForm nueva" style = "" href = "{{path('altaCategorias')}}">Nueva categoría</a>
+        </div>
+    </div>
+    <hr>
+    <div class = "m-3">
+        <b style = "color: #0F9FA8;">Cantidad de categorías PP: {{categoria|length}} </b>
+    </div>
+    {{ form_end(formulario) }}
+    <table class="table table-borderless">
+        <thead class = "text-white">
+            <tr style = "background-color: #0F9FA8;">
                 <th>Nro</th>
                 <th>Nombre</th>
                 <th>Email Asociado   </th>
@@ -17,7 +33,7 @@
                 <th style="text-align: center;">ELIMINAR</th>
             </tr>
         </thead>
-        <tbody id="myTable">
+        <tbody >
             {% for categoriaPP in categoria %}
             <tr>
                 <th>{{ loop.index }}</th>
@@ -25,17 +41,20 @@
                 {% if categoriaPP.destinos != null %}
                     <td>{{categoriaPP.destinos.email}}</td>
                 {% else  %}
-                    <td><a class = "" href = "{{path('verDestino')}}" style = "text-decoration: none; font-size: 18px; color: #0F9FA8;"><i class="far fa-envelope" style = "font-size:18px;"></i> Asignar email</a></td>
+                    <td class = "grow"><a class = "" href = "{{path('verDestinos')}}" style = "text-decoration: none; font-size: 18px; color: #0F9FA8;"><i class="far fa-envelope"  style = "font-size:18px;"></i> Asignar email</a></td>
                     
                 {% endif %}
                 <td>{{categoriaPP.publicado}}</td>
                 <td>{{categoriaPP.fechaPublicacionDesde|date('d-m-Y')}}</td>
-                <td style="text-align: center;"><a class ="btn" href="{{path ('modificarCategoria', {'id': categoriaPP.id})}}" ><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
-                <td style="text-align: center;"><a class = "btn" onclick="DeleteFunction({{categoriaPP.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
+                <td style="text-align: center;"><a class ="btn grow" href="{{path ('modificarCategoria', {'id': categoriaPP.id})}}" ><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
+                <td style="text-align: center;"><a class = "btn grow" onclick="DeleteFunction({{categoriaPP.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>
+            
     </table> 
+</div>
+<br>
 <script src = "{{asset("js/verCategorias.js")}}"> </script>
 
 {% endblock %}

@@ -79,15 +79,6 @@ class CategoriaSecundaria
 
 
    
-
-   
-
-   
-
-    
-
-
-   
     public function __construct()
     {
         $this ->icono = null;

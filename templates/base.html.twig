@@ -1,183 +1,180 @@
 <!DOCTYPE html>
-<html >
+<html>
     <head>
         <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-      
-
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}Novedades - UNRaf{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="icon" href="{{ asset("img/iconoUnraf.png") }}">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+            <link href="{{ asset("css/estiloBase.css") }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset("css/estilos.css") }}" rel="stylesheet" type="text/css">
+            <link rel="icon" href="{{ asset("img/iconoUnraf.png") }}">
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <link href = "{{asset("css/estilos.css")}}" rel = "stylesheet" type = "text/css">
-            
-            
         {% endblock %}
     </head>
-    
-    <body>
-        {% block body %}
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_EDITOR') %}
+    <body> 
+    {% block body %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_EDITOR') %}
+        <div id="wrapper" class="animate">
+        
+            <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-light bg-light">
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                <span class="navbar-toggler-icon"></span> 
-            </button>  
-            {% if app.request.pathinfo == "/sistema" %}
-                    <a class="nav-link" href="{{path('sistema')}}"><img src = "{{asset ('svg/home.svg')}}" alt="Home" width="32"></a>
-                {% else %}
-                    <a class="nav-link" href="{{path('sistema')}}"><img src = "{{asset ('svg/home_blanco.svg')}}" alt="Home" width="32"></a>
-            {% endif %}
-            
-            <div class="collapse navbar-collapse dual-collapse2 mx-auto order-3 " id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto " style = "text-decoration: none;">
-                {%  if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN')%}
-                    <li class="nav-item dropdown m-2" id= "navBarMargin">
-                        {% if app.request.pathinfo == "/altaPerfiles" or app.request.pathinfo == "/verPerfiles" or "/modificarPerfiles" in app.request.pathinfo or "/asignarCategorias" in app.request.pathinfo %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Perfiles</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Perfiles
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a id = "navHover" class="dropdown-item" href="{{path('altaPerfiles')}}">Alta</a>
-                            <div class="dropdown-divider"></div>
-                            <a id = "navHover" class="dropdown-item" href="{{path('verPerfiles')}}">Ver / Modificar</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown m-2">
-                        {% if app.request.pathinfo == "/altaCategorias" or app.request.pathinfo == "/verCategorias" or "/modificarCategoria" in app.request.pathinfo %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Categoria Principal</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categoria Principal
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a  id = "navHover" class="dropdown-item" href="{{path('altaCategorias')}}">Alta</a>
-                            <div class="dropdown-divider"></div>
-                            <a  id = "navHover" class="dropdown-item" href="{{path('verCategorias')}}">Ver / Modificar</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown m-2">
-                        {% if app.request.pathinfo == "/altaCategoriasSecundarias" or app.request.pathinfo == "/verCategoriasSecundarias" or "/modificarSecundarias" in app.request.pathinfo %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Categoria Secundaria</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categoria Secundaria
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a  id = "navHover" class="dropdown-item" href="{{path('altaCategoriasSecundarias')}}">Alta</a>
-                            <div class="dropdown-divider"></div>
-                            <a  id = "navHover" class="dropdown-item" href="{{path('verCategoriasSecundarias')}}">Ver / Modificar</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown m-2">
-                        {% if app.request.pathinfo == "/altaDestino" or app.request.pathinfo == "/verDestino" or "/modificarDestino" in app.request.pathinfo or "/asignarCategoriaDestino" in app.request.pathinfo %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Destinos</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Destinos
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a  id = "navHover" class="dropdown-item" href="{{path('altaDestino')}}">Alta</a>
-                            <div class="dropdown-divider"></div>
-                            <a  id = "navHover" class="dropdown-item" href="{{path('verDestino')}}">Ver / Modificar</a>
-                        </div>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item dropdown m-2" style = "text-decoration: none;">
-                        {% if app.request.pathinfo == "/altaInformacion" or app.request.pathinfo == "/verInformacion" or "/modificarInformacion" in app.request.pathinfo %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Información</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Información
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a  id = "navHover" class="dropdown-item" href="{{path('altaInformacion')}}">Alta</a>
-                            <div class="dropdown-divider"></div>
-                            <a  id = "navHover" class="dropdown-item" href="{{path('verInformacion')}}">Ver / Modificar</a>
-                        </div>
-                    </li>
-                    {% if is_granted('ROLE_SUPERADMIN') %}
-                    <li class="nav-item dropdown m-2">
-                        {% if app.request.pathinfo == "/superadmin/roles" %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b id = "seleccionado">Roles</b>
-                        </a>
-                        {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Roles
-                        </a>
-                        {% endif %}
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{path('roles')}}">Dar Roles</a>                             
-                        </div>
-                    </li>
-                    {% endif %}
+
+                {# Boton responsive #}
+                <span class="navbar-toggler-icon leftmenutrigger" id = "rayitas"></span>
+
+                {# Boton desplegable #}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                {# Título del sistema #}
+                <ul class="navbar-nav ml-md-auto">
+                    <a style="margin-right: 50px; color: #0F9FA8;" class="navbar-brand grow" href="{{path('sistema')}}">FAQS</a>  
                 </ul>
-            </div>  
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class = "nav-link" href = "{{path('app_logout')}}"><i class="fas fa-sign-out-alt" style = "font-size: 30px; color:#FEB413;"></i></a>
-                    </li>
-                </ul>
+        
+                {# Div oculto #}
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav animate side-nav " style = "">
+
+                        {# Home #}
+                        <li id="menuDocumento" class="nav-item perfil-p ">
+                            <a class="nav-link" href="{{path('sistema')}}"><button class="btn perfil-btn-light"><i class="fas fa-home" style = "color: #0F9FA8;"></i></button>Inicio</a>
+                        </li>
+
+                        {%  if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERADMIN')%}
+                        {# Perfiles #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" href="{{path('verPerfiles')}}"><button class="btn perfil-btn-light "><i class="fas fa-user-alt" style = "color: #0F9FA8;"></i></button>Perfiles</a>
+                        </li>
+
+                        {# Categorías Principales #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" href="{{path('verCategorias')}}"><button class="btn perfil-btn-light"><i class="fab fa-cuttlefish" style = "color: #0F9FA8;"></i></button>Cat. Principales</a>
+                        </li>
+
+
+                        {# Categorías Secundarias #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" href="{{path('verCategoriasSecundarias')}}"><button class="btn perfil-btn-light"><i class="fab fa-stripe-s" style = "color: #0F9FA8;"></i></button>Cat. Secundarias</a>
+                        </li>
+
+                        {# Destinos #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" href="{{path('verDestinos')}}"><button class="btn perfil-btn-light"><i class="fas fa-envelope" style = "color: #0F9FA8;"></i></button>Destinos</a>
+                        </li>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_EDITOR') %}
+                        {# Información #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" href="{{path('verInformacion')}}"><button class="btn perfil-btn-light"><i class="fas fa-question-circle" style = "color: #0F9FA8;"></i></button>Información</a>
+                        </li>
+                        {% endif %}
+                        
+                        
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                        {# Roles #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link color-grey" href="{{path('roles')}}"><button class="btn perfil-btn-light"><i class="fas fa-user-tag" style = "color: #0F9FA8;"></i></button>Rol de usuarios</a>
+                        </li>
+                        {% endif %}
+
+                        {# Bug #}
+                        <li id="menuDocumento" class="nav-item perfil-p mt-2">
+                            <a class="nav-link" data-toggle="modal" href="#ventanaModal"><button class="btn perfil-btn-light"><i class="fas fa-envelope" style = "color: #0F9FA8;"></i></button>Reportar error</a>
+                        </li>
+
+
+                    </ul>  
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" aria-haspopup="true" aria-expanded="false"  data-toggle="dropdown" href="#"><button class="btn perfil-btn-tomato"><i class="fas fa-user" style = "color: white;"></i></button></a>
+
+                            <div class="dropdown-menu pers-drop-down" aria-labelledby="navbarDropdownMenuLink">
+                                 {# Parte del perfil  #}
+                                <div class="container user-perfil d-block" style = "">
+
+                                    <div class="media">
+                                        {# Imágen de unraf con border radius #}
+                                        <img class="perfil-img" src="{{asset('img/iconoUnraf.png')}}" style = "padding: 1px;"></img>
+                                        {# email #}
+                                        <p class="perfil-email text-secondary">{{ app.user.email|replace({'@unraf.edu.ar': ''})}}</p>
+                                    </div>
+                                     <p style="font-size: 10px;" class="text-secondary text-right mt-1">ROL: {{app.user.roles|last|slice(5,10)}}</p>
+                                    <hr>
+                                    <div class = "text-center">
+                                        <a class="user-link" style = "font-size: 18px;" href="{{path('backIntranet')}}"><i class="fas fa-hand-point-left"></i> Intranet</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="modal fade" id="ventanaModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <div class = "media">
+                            <img src="{{ asset("svg/mail.svg") }}" title="Soporte técnico" width="25" height="25" alt="Sesion">
+                            <h5 style="color:#0F9FA8;margin-left:10px;" class="modal-title">Si encontró un error en el sistema, detallar aquí.</h5>
+                        </div>
+                        <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h6 style="color:#306086;">Descripción:</h6>
+                            <textarea class="form-control campoForm" id="inputMensaje" placeholder="Ingrese el mensaje.."></textarea>
+                            <p id="avisoMensaje" style="color:red;text-align:center;"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer container">
+                        <a onclick="envioMail()" class="btn" style="background-color:#0F9FA8;text-align:center;color:white;width:200px;" >Enviar
+                            <img src="{{ asset("svg/telegram.svg") }}" title="Enviar" width="25" height="25" alt="Sesion">
+                        </a>
+                    </div>
+
+                </div>
             </div>
-               
-        </nav>
-            {% endif %}
+        </div>
+        {% endif %}
         <div class="container">
             {% for message in app.flashes('info') %}
-                <div class="alert alert-success alert-dismissible mt-4 mb-3">
+                <div id="notificacion" class="container alert alert-success wobble-vertical">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     {{ message }}
                 </div>
             {% endfor %}
             {% for message in app.flashes('error') %}
-                <div class="alert alert-danger alert-dismissible mt-4 mb-3">
+                <div id="notificacion" class="container alert alert-danger wobble-vertical">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     {{ message }}
                 </div>
             {% endfor %}
             {% for message in app.flashes('warning') %}
-                <div class="alert alert-warning alert-dismissible mt-4 mb-3">
+                <div id="notificacion" class="container alert alert-warning wobble-vertical">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     {{ message }}
                 </div>
             {% endfor %}
-        </div> 
+        </div>
+        
+        
+        {% endblock %}
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>{% block javascripts %}
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
+            <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-search-pseudo-elements></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+            <script src= "{{asset('js/accionesQuery.js')}}"></script>
+            <script src="{{ asset("js/accionesDinamicas.js") }}"></script>
+            <script src="{{ asset("js/reportBug.js") }}"></script>
         {% endblock %}
         
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>{% block javascripts %}
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-        
-        
-        {# <script src= "{{asset('js/accionesQuery.js')}}"></script>
-        <script src= "{{asset('js/validacionesExtras.js')}}"></script> #}
-      
-
-        
-        <script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-search-pseudo-elements></script>
-        
-
-
-        {% endblock %}
     </body>
 </html>

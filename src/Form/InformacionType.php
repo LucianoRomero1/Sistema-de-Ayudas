@@ -29,10 +29,12 @@ class InformacionType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('cs')
                         ->add('where', "cs.infoAsignada = false");
-                        
+                
                     },
                 'choice_label' => 'nombre_categoria'])
-            ->add('explicacion',CKEditorType::class)
+            ->add('explicacion',CKEditorType::class, [
+                'empty_data' => ''
+            ])
             ->add('Aceptar', SubmitType::class)
             ;
     }

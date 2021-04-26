@@ -38,9 +38,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/superadmin, roles: ROLE_SUPERADMIN }
-         - { path: ^/lector, roles: ROLE_LECTOR }
-         - { path: ^/editor, roles: ROLE_EDITOR }
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/editor, roles: ROLE_EDITOR }
+         - { path: ^/lector, roles: ROLE_LECTOR }
+         
+         
         
         
         

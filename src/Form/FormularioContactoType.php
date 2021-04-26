@@ -25,8 +25,8 @@ class FormularioContactoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
-            ->add('apellido')
+            ->add('nombre', null,['required' => true])
+            ->add('apellido', null,['required' => true])
             ->add('codigoArea', null,['required' => false])
             ->add('telefono', null,['required' => false])
             ->add('dni', null, ['required' => false])

@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modificar Destinos{% endblock %}
+{% block title %}FAQS - Modificar Destinos{% endblock %}
 
 {% block body %}
 {{parent()}}
-<a class = "btn" style = "margin-left: 30px; margin-top: 40px;" href = "{{path('verDestino')}}"><i class="fas fa-arrow-left " style = "font-size: 30px;color: #0F9FA8;"></i></a>
-<div class = "container">
-    <div class = "container mt-5" id = "divCruds" >
+<div class = "container" >
+    
+    <div class = "container mt-4" id = "divCruds" >
+        <a class = "btn" href = "{{path('verDestinos')}}"><i class="fas fa-arrow-left grow " style = "font-size: 30px;color: #0F9FA8;"></i></a>
         <h1 class = "text-center  " style = "font-size: 50px;">Modificar Destinos</h1>
         {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
         <div class = "container mt-5" id = "divPertenece">
