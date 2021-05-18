@@ -30,13 +30,14 @@
                                         
                                         {% if  perfiles.comunidadUnraf == 'Pertenece' %}
                                                 {% if perfiles.publicado == "Publicado" %}
-                                                        {% if perfiles.icono != null and perfiles.icono != "" %}
+                                                        {% if perfiles.icono != null and perfiles.icono != ""  %}
                                                                 <a id="borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}"><img src="{{asset(('uploads/iconos/'~ perfiles.icono))}}" style="width:22px;margin-bottom:5px;margin-right: 10px;" class=" imagenSistema ">{{perfiles.descripcionCorta}}</a>   
                                                         {% else %}
                                                                 <a id="borde" class = "list-group-item list-group-item-action mb-1"  href = "{{path('categoriaPrincipal', {'id': perfiles.id})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{perfiles.descripcionLarga}}">{{perfiles.descripcionCorta}}</a>   
                                                         {% endif %}
                                                 {% endif %}
-                                        {% endif %}             
+                                        {% endif %}    
+                                                 
                                 {% endfor %}
                                 </div>
                         </div>

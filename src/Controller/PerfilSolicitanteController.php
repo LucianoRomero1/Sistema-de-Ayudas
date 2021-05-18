@@ -13,10 +13,6 @@ use App\Entity\UserBusqueda;
 use App\Form\UserBusquedaType;
 
 
-
-
-
-
 //Controller general para un CRUD
 class PerfilSolicitanteController extends AbstractController
 {
@@ -26,16 +22,11 @@ class PerfilSolicitanteController extends AbstractController
     public function AltaPerfiles(Request $request)
     {
         $perfiles = new PerfilSolicitante();
-
-        //Pongo fecha inicial por defecto
-        $fechaActual = $this -> getFechActual();
-        $perfiles -> setFechaPublicacionDesde($fechaActual);
     
         $formulario = $this -> createForm(PerfilSolicitanteType::class, $perfiles);
         $formulario -> handleRequest($request); 
   
         
-     
         $fecha = $perfiles -> getFechaPublicacionDesde();
         $fechaHasta = $perfiles -> getFechaPublicacionHasta();
         
@@ -114,8 +105,9 @@ class PerfilSolicitanteController extends AbstractController
 
         // $perfiles = $em -> getRepository(PerfilSolicitante::class) -> findAll();
         //Los acomoda por nombre
-        $perfiles= $em->getRepository(PerfilSolicitante::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
-    
+        // $perfiles= $em->getRepository(PerfilSolicitante::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
+        // $perfiles= $em->getRepository(PerfilSolicitante::class)->findBy(array(), array('id' => 'DESC'));
+        $perfiles = $this -> obtenerPerfiles();
    
         if($form -> isSubmitted()){
             return $this -> render('perfil_solicitante/verPerfiles.html.twig', [
@@ -140,12 +132,30 @@ class PerfilSolicitanteController extends AbstractController
         ORDER BY p.id ASC
         "
         )->setParameter('descripcion_corta','%'. $busqueda->getBuscar().'%');
-        
+        //Es para que busque en la cadena completa un string, ignorando la posición en donde esté
         
         //Límite de resultados..
         $query->setMaxResults(100);
         
         //Retorna busqueda de la compra..
+        return $query->getResult();
+    }
+
+    public function obtenerPerfiles(){
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT p
+        FROM App\Entity\PerfilSolicitante p
+        WHERE p.id != '1' 
+        ORDER BY p.id ASC
+        "
+        );
+        
+        
+        $query->setMaxResults(100);
+        
+        
         return $query->getResult();
     }
 
@@ -159,8 +169,6 @@ class PerfilSolicitanteController extends AbstractController
         $em = $this -> getDoctrine() -> getManager();
         $perfiles = $em -> getRepository(PerfilSolicitante::class) -> find($id);
 
-       
-    
         //Obtengo la dirección del ícono sin actualizar.
         $urlIcono = $perfiles->getIcono();
        

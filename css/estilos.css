@@ -27,7 +27,7 @@ h2,h3,h4,h5,h6,a{
 .btn-buscar{
     background-color: #0F9FA8;
     color: white;
-    width: 170px;
+    width: 190px;
     border-radius: 0px 80px 80px 0px;
 }
 
@@ -80,6 +80,28 @@ nav a{
     transition: all 200ms;
 }
 
+
+.divBuscar{
+  padding-left:50px;
+  padding-right:50px;
+  padding-top:40px;
+  padding-bottom:10px;
+}
+.bordeSombreado{
+  -webkit-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
+  -moz-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
+  box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
+  border: 1px solid #8CCACE;
+}
+.botonCeleste{
+  background-color:#FEB413;
+  color:white;
+}
+
+.ancho{
+  width: 150px;
+  
+}
 
 #seleccionado{
     color: #FEB413;

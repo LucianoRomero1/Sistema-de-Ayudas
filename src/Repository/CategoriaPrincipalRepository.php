@@ -19,6 +19,11 @@ class CategoriaPrincipalRepository extends ServiceEntityRepository
         parent::__construct($registry, CategoriaPrincipal::class);
     }
 
+  
+
+    
+    
+
     // /**
     //  * @return CategoriaPrincipal[] Returns an array of CategoriaPrincipal objects
     //  */

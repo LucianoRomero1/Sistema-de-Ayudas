@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserBusqueda;
 use App\Form\UserBusquedaType;
+use App\Repository\CategoriaPrincipalRepository;
 
 //Controller general para un CRUD.
 
@@ -19,13 +20,10 @@ class CategoriaPrincipalController extends AbstractController
     /**
      * @Route("/admin/altaCategorias", name="altaCategorias")
      */
-    public function AltaCategorias(Request $request)
+    public function AltaCategorias(Request $request, CategoriaPrincipalRepository $catRepo)
     {
         $categoriaPP = new CategoriaPrincipal(); //Constructor
-        //Pongo fecha inicial por defecto
-        $fechaActual = $this -> getFechActual();
-        $categoriaPP -> setFechaPublicacionDesde($fechaActual);
-        //
+
         //Crear formulario, dos parametros, el FORM y la var recien creada
         $formulario = $this -> createForm(CategoriaPrincipalType::class, $categoriaPP);
         //Para procesar los datos del formulario
@@ -38,7 +36,7 @@ class CategoriaPrincipalController extends AbstractController
     
         if($fecha <= $this -> getFechActual()){
             $categoriaPP -> setPublicado("Publicado");
-         }
+        }
         else{
             $categoriaPP -> setPublicado("Despublicado");
         }
@@ -105,7 +103,8 @@ class CategoriaPrincipalController extends AbstractController
         // $categoriaPP = $manager -> getRepository(CategoriaPrincipal::class)-> findAll(); 
 
         //Los acomoda por nombre 
-        $categoriaPP= $manager->getRepository(CategoriaPrincipal::class)->findBy(array(), array('nombre_categoria' => 'ASC'));
+        // $categoriaPP= $manager->getRepository(CategoriaPrincipal::class)->findBy(array(), array('nombre_categoria' => 'ASC'));
+        $categoriaPP= $manager->getRepository(CategoriaPrincipal::class)->findBy(array(), array('id' => 'DESC'));
 
         if($form -> isSubmitted()){
             return $this -> render('categoria_principal/verCategorias.html.twig', [
@@ -258,13 +257,11 @@ class CategoriaPrincipalController extends AbstractController
     }
 
 
-    //Retorna la fecha actual
     public function getFechActual(){
         $fechaActual=  new \DateTime();
                 
         return $fechaActual;
     }
-
 
     public function getAnioValido($fecha){
         $anio = $fecha->format('Y');
@@ -278,7 +275,6 @@ class CategoriaPrincipalController extends AbstractController
         
     }
 
-      
     public function getAnioValidoHasta($fechaHasta){
         if($fechaHasta != null){
             $anio = $fechaHasta->format('Y');
@@ -294,6 +290,10 @@ class CategoriaPrincipalController extends AbstractController
             return true;
         }
     }
+
+
+      
+   
 
     
     public function validarTamanioImagen($imagen){

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\CategoriaSecundaria;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\UserBusqueda;
+
 
 /**
  * @method CategoriaSecundaria|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +21,18 @@ class CategoriaSecundariaRepository extends ServiceEntityRepository
         parent::__construct($registry, CategoriaSecundaria::class);
     }
 
-    // /**
-    //  * @return CategoriaSecundaria[] Returns an array of CategoriaSecundaria objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+   
 
-    /*
-    public function findOneBySomeField($value): ?CategoriaSecundaria
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    public function buscarPorFecha(){
+
     }
-    */
+
+    public function buscarPorPublicado(){
+        
+    }
+
+    public function buscarTodos(){
+
+    }
+
 }

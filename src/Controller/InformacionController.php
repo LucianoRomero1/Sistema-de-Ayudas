@@ -28,7 +28,7 @@ class InformacionController extends AbstractController
 
         if($formulario -> isSubmitted() && $formulario -> isValid() && $this -> validarInformacion($informacion)){ 
             $em = $this -> getDoctrine() -> getManager();
-            if($informacion -> getIdCategoriaSecundaria() != null ){
+            if($informacion -> getIdCategoriaSecundaria() != null){
                 $catSecundaria = $informacion -> getIdCategoriaSecundaria();
                 $catSecundaria -> setInfoAsignada(true);
                 $em -> persist($informacion);
@@ -63,7 +63,9 @@ class InformacionController extends AbstractController
         $busqueda = $form -> getData();
 
         //Los acomoda por nombre 
-        $informacion= $em->getRepository(Informacion::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
+        // $informacion= $em->getRepository(Informacion::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
+        $informacion= $em->getRepository(Informacion::class)->findBy(array(), array('id' => 'DESC'));
+        
 
 
         if($form -> isSubmitted()){

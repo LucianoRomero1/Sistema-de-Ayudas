@@ -7,7 +7,7 @@
     
     <div class ="container" >
         
-        <h1 class = "text-center " style = "font-size: 50px;">Modificar Categorías Secundarias</h1>
+        <h1 class = "text-center " style = "font-size: 50px;">Modificar Categoría Secundaria</h1>
         <div class = "container mt-2" id = "divCruds">
             <a class = "btn " href = "{{path('verCategoriasSecundarias')}}"><i class="fas fa-arrow-left grow" style = "font-size: 30px; color: #0F9FA8; "></i></a>
             {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
@@ -30,19 +30,57 @@
                     {{ form_widget(formulario.fecha_publicacion_desde, {attr: {class: 'form-control camposEstandar', style: 'cursor: text;'} })}}
                 </div>
             </div>
-            <div class = "text-center mt-4">
-                <h3 class = "text-info"> Agregar fecha de caducidad </h3>
-                <input id = "agregarFecha" type = "checkbox" class = "grow">
-            </div>
-            <div class = "row mt-3 justify-content-center" id = "divFechaCaducidad">
-                <div class = "col-sm-3">
-                    <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Fecha Publicación Hasta: </label>
+            {% if catSecundarias.fechaPublicacionHasta == null %}
+                <div class = "text-center mt-4">
+                    <h3 class = "text-info"> Agregar fecha de caducidad </h3>
+                    <input id = "agregarFecha" type = "checkbox" class = "grow">
                 </div>
-                <div class = "col-sm-1"></div>
-                <div class = "col-sm-3">
-                    {{ form_widget(formulario.fecha_publicacion_hasta, {attr: {class: 'form-control camposEstandar', style: 'cursor: text;'} })}}
+                <div class = "row mt-3 justify-content-center" id = "divFechaCaducidad">
+                    <div class = "col-sm-3">
+                        <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Fecha Publicación Hasta: </label>
+                    </div>
+                    <div class = "col-sm-1"></div>
+                    <div class = "col-sm-3">
+                        {{ form_widget(formulario.fecha_publicacion_hasta, {attr: {class: 'form-control camposEstandar', style: 'cursor: text;'} })}}
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                <div class = "row mt-3 justify-content-center">
+                    <div class = "col-sm-3">
+                        <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Fecha Publicación Hasta: </label>
+                    </div>
+                    <div class = "col-sm-1"></div>
+                    <div class = "col-sm-3">
+                        {{ form_widget(formulario.fecha_publicacion_hasta, {attr: {class: 'form-control camposEstandar', style: 'cursor: text;'} })}}
+                    </div>
+                </div>
+            {% endif %}
+            {% if catSecundarias.perfilAsignado == null or catSecundarias.perfilAsignado.id == '1' %}
+                <div class = "text-center mt-4">
+                    <h3 class = "text-info"> Elija un perfil a asociar <i class = "text-secondary">*opcional</i> </h3>
+                    <input id = "agregarPerfil" type = "checkbox" class = "grow">
+                </div>
+                <div class = "row mt-3 justify-content-center" id = "divPerfilAsociado">
+                    <div class = "col-sm-3">
+                        <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Perfil </label>
+                    </div>
+                    <div class = "col-sm-1"></div>
+                    <div class = "col-sm-3">
+                        {{ form_widget(formulario.perfilAsignado, {attr: {class: 'form-control camposEstandar'}})}}
+                    </div>
+                </div>
+            {% else %}
+                <div class = "row mt-3 justify-content-center">
+                    <div class = "col-sm-3">
+                        <label style = "color: #0F9FA8" class = " col-sm-12 text-center">Perfil asignado: </label>
+                    </div>
+                    <div class = "col-sm-1"></div>
+                    <div class = "col-sm-3">
+                        {{ form_widget(formulario.perfilAsignado, {attr: {class: 'form-control camposEstandar'}})}}
+                    </div>
+                </div>
+            {% endif %}
+       
             <div class = "container mt-4 text-center">
                 {{ form_widget(formulario.Aceptar, {attr: {class: 'btn btn-outline-info btn-lg'}})}}
             </div>

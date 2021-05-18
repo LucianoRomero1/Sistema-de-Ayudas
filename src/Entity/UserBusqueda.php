@@ -6,16 +6,31 @@ class UserBusqueda
 {
 
     private $buscar;
+    private $filtrarPor;
 
 
-    public function getBuscar()
+     function getBuscar()
     {
         return $this->buscar;
     }
 
-    public function setBuscar($buscar): void
+     function setBuscar($buscar): void
     {
         $this->buscar = $buscar;
 
     }
+
+    
+    function getFiltrarPor()
+    {
+        return $this->filtrarPor;
+    }
+
+     function setFiltrarPor($filtrarPor): void
+    {
+        $this->filtrarPor = $filtrarPor;
+
+    }
+
+
 }

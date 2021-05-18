@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PerfilSolicitanteRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,17 +65,20 @@ class PerfilSolicitante
      */
     private $icono;
 
-  
 
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity=CategoriaSecundaria::class, mappedBy="perfilAsignado")
+     */
+    private $categoriaSecundarias;
+
 
     public function __construct()
     {
         $this->id_categoria_principal = new ArrayCollection();
         $this ->icono = null;
-       
-      
-        
+        $this->categoriaSecundarias = new ArrayCollection();
+        $this->fecha_publicacion_desde = new DateTime();
     }
 
     public function getId(): ?int
@@ -205,6 +209,37 @@ class PerfilSolicitante
 
         return $this;
     }
+
+    /**
+     * @return Collection|CategoriaSecundaria[]
+     */
+    public function getCategoriaSecundarias(): Collection
+    {
+        return $this->categoriaSecundarias;
+    }
+
+    public function addCategoriaSecundaria(CategoriaSecundaria $categoriaSecundaria): self
+    {
+        if (!$this->categoriaSecundarias->contains($categoriaSecundaria)) {
+            $this->categoriaSecundarias[] = $categoriaSecundaria;
+            $categoriaSecundaria->setPerfilAsignado($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoriaSecundaria(CategoriaSecundaria $categoriaSecundaria): self
+    {
+        if ($this->categoriaSecundarias->removeElement($categoriaSecundaria)) {
+            // set the owning side to null (unless already changed)
+            if ($categoriaSecundaria->getPerfilAsignado() === $this) {
+                $categoriaSecundaria->setPerfilAsignado(null);
+            }
+        }
+
+        return $this;
+    }
+
 
     
 

@@ -6,6 +6,7 @@ use App\Repository\CategoriaPrincipalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=CategoriaPrincipalRepository::class)
@@ -81,9 +82,8 @@ class CategoriaPrincipal
     {
         $this->perfilSolicitante = new ArrayCollection();
         $this->categoriaSecundaria = new ArrayCollection();
-        $this ->icono = null;
-       
-        
+        $this ->icono = null; 
+        $this->fecha_publicacion_desde = new DateTime();
     }
 
     public function getId(): ?int

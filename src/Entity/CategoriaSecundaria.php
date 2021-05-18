@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoriaSecundariaRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,12 +22,12 @@ class CategoriaSecundaria
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=250)
      */
     private $nombre_categoria;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=300)
      */
     private $descripcion_categoria;
 
@@ -76,6 +77,15 @@ class CategoriaSecundaria
      */
     private $informacionOne;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PerfilSolicitante::class, inversedBy="categoriaSecundarias")
+     */
+    private $perfilAsignado;
+
+    
+
+    
+
 
 
    
@@ -83,8 +93,7 @@ class CategoriaSecundaria
     {
         $this ->icono = null;
         $this->informacion = new ArrayCollection();
-  
-     
+        $this->fecha_publicacion_desde = new DateTime();
    
     }    
 
@@ -252,6 +261,22 @@ class CategoriaSecundaria
 
         return $this;
     }
+
+    public function getPerfilAsignado(): ?PerfilSolicitante
+    {
+        return $this->perfilAsignado;
+    }
+
+    public function setPerfilAsignado(?PerfilSolicitante $perfilAsignado): self
+    {
+        $this->perfilAsignado = $perfilAsignado;
+
+        return $this;
+    }
+
+  
+
+ 
 
  
 

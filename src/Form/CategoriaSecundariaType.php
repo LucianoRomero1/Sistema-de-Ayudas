@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\CategoriaSecundaria;
 use App\Entity\CategoriaPrincipal;
 use App\Entity\Destinos;
+use App\Entity\PerfilSolicitante;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,6 +37,12 @@ class CategoriaSecundariaType extends AbstractType
        
         ->add('fecha_publicacion_desde', DateType::class, ['widget' => 'single_text'])
         ->add('fecha_publicacion_hasta', DateType::class, ['widget' => 'single_text' , 'required' => false])
+        ->add('perfilAsignado', EntityType::class, [
+            'class' => PerfilSolicitante::class,
+            'choice_label' => 'descripcion_corta',
+        ])
+        
+           
         ->add('Aceptar', SubmitType::class)
         ;
     }

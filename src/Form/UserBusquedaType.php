@@ -4,6 +4,7 @@ namespace App\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,6 +18,12 @@ class UserBusquedaType extends AbstractType
     {
         $builder
             ->add('buscar', TextType::class, array('required' => false))
+            // ->add('filtrarPor', ChoiceType::class, ['choices' => [
+            //     'Categoría principal asociada' => 0,
+            //     'Fecha desde' => 1,
+            //     'Nombre' => 2,
+            //     'Publicado' => 3
+            // ]])
             ->add('Buscar', SubmitType::class)
         ;
     }

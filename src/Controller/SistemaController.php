@@ -36,8 +36,8 @@ class SistemaController extends AbstractController
         }
         
         //Listar en orden segun los click y alfabeticamente (medio innecesario por alfabeto)
-        $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('click' => 'DESC', 'descripcion_corta' => 'ASC'));
-        
+        // $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('click' => 'DESC', 'descripcion_corta' => 'ASC'));
+        $perfiles = $this -> obtenerPerfiles();
         //Este for es para recorrer cada perfil mostrado en el inicio y hacer la comprobacion con las fechasDesde y fechaHasta
         //Para publicarlo o despublicarlo segun corresponda en las fechas dictadas
         //Y el flush abajo es para actualizarlo en la base de datos.
@@ -85,7 +85,8 @@ class SistemaController extends AbstractController
      
         //Listar en orden segun los click y alfabeticamente (medio innecesario por alfabeto)
         // $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('click' => 'DESC', 'descripcion_corta' => 'ASC'));
-        $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
+        // $perfiles= $manager->getRepository(PerfilSolicitante::class)->findBy(array(), array('descripcion_corta' => 'ASC'));
+        $perfiles = $this -> obtenerPerfiles();
         
         //Este for es para recorrer cada perfil mostrado en el inicio y hacer la comprobacion con las fechasDesde y fechaHasta
         //Para publicarlo o despublicarlo segun corresponda en las fechas dictadas
@@ -114,7 +115,7 @@ class SistemaController extends AbstractController
             );
     }
 
-     /**
+    /**
      * @Route("/categoriaPrincipal/{id}", name="categoriaPrincipal")
      */
     public function CategoriaPrincipal($id){
@@ -163,17 +164,24 @@ class SistemaController extends AbstractController
         //Misma tematica de arriba 
         $em = $this -> getDoctrine() -> getManager();
        
-
+        $perfil = $em -> getRepository(PerfilSolicitante::class) -> find($idPerfil);
         $categoriaP = $em -> getRepository(CategoriaPrincipal::class) -> find($id);
 
         //Sumar Click
         $categoriaP -> setClick($categoriaP -> getClick() + 1);
         $em -> flush();
-        //
+        
+        
+        //Esto lo que es hace es lo siguiente, recupero las categorias secundarias correspondientes a la categoria que clickeamos
+        //Despues en dos colecciones recupero los que TIENEN UN PERFIL ASIGNADO Y LOS QUE NO(NULL)
+        //Y por ultimo los concateno
+        $categoriaS= $em->getRepository(CategoriaSecundaria::class)->findBy(array('id_categoria_principal' => $id, 'perfilAsignado' => null), array('click' => 'DESC'));
+        $categoriasPerfil= $em->getRepository(CategoriaSecundaria::class)->findBy(array('id_categoria_principal' => $id, 'perfilAsignado' => $idPerfil), array('click' => 'DESC'));
 
-        $categoriaS = $categoriaP -> getCategoriaSecundaria();
+        $categoriaS= array_merge($categoriaS, $categoriasPerfil);
 
-          //Foreach comprobacion fechaDesde  y fechaHasta
+   
+        //Foreach comprobacion fechaDesde  y fechaHasta
         foreach($categoriaS as $catSec){
             $fechaDesde = $catSec -> getFechaPublicacionDesde();
             $fechaHasta = $catSec -> getFechaPublicacionHasta();
@@ -185,16 +193,9 @@ class SistemaController extends AbstractController
                 if($fechaActual >= $fechaHasta){
                     $catSec -> setPublicado("Despublicado");
                 }
-            }
-                
+            }                
         }
         $em -> flush();
-
-        //Me busca solo las categorias SEC asociadas a la principal y de las ordena
-        $categoriaS= $em->getRepository(CategoriaSecundaria::class)->findBy(array('id_categoria_principal' => $id), array('click' => 'DESC' , 'nombre_categoria' => 'ASC') );
-
-        $perfil = $em -> getRepository(PerfilSolicitante::class) -> find($idPerfil);
-        
 
         return $this -> render('sistema/categoriaSecundaria.html.twig', [
             'catSec' => $categoriaS, 
@@ -572,6 +573,24 @@ class SistemaController extends AbstractController
     }
 
 
+
+    public function obtenerPerfiles(){
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT p
+        FROM App\Entity\PerfilSolicitante p
+        WHERE p.id != '1' 
+        ORDER BY p.descripcion_corta ASC
+        "
+        );
+        
+        
+        $query->setMaxResults(100);
+        
+        
+        return $query->getResult();
+    }
    
     //Hacer esta funcion con cada archivo
    public function validarTamanio($contacto){

@@ -4,6 +4,7 @@
 
 {% block body %}
     {{parent()}}
+    {# {{dump(catSec)}} #}
     <div class ="container mt-3">
          {# //Esta flechita es para el celu, el div es para la PC#}
         <a href = "{{path('sistema')}}" class = "ml-3"style = "font-size: 25px;" id = "flechitaAtras"><i class="fas fa-home text-secondary"></i></a> 
@@ -20,7 +21,7 @@
                     <p id = "bordeP" class = "list-group-item list-group-item-action text-center text-white"  style = "background-color: #0F9FA8;">Categorias Secundarias</p>
                 </div>
                 <div class = "   container" id = "nombresCatSecundaria">                 
-                    {% for categorias2 in catSec %}
+                     {% for categorias2 in catSec|sort((a, b) => b.click <=> a.click) %} 
                         {% if categorias2.publicado == "Publicado" %}
                             {% if categorias2.icono != null and categorias2.icono != "" %}
                                 <a id = "borde" class = "list-group-item list-group-item-action mb-1" href="{{path('informacion', {'id': categorias2.id, 'idPerfil': idPerfil, 'idCatPP': idCatPP})}}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{categorias2.descripcionCategoria}}"><img src="{{asset(('uploads/iconos/'~ categorias2.icono))}}" style="width:22px;margin-bottom:5px;margin-right: 10px;" class=" imagenSistema ">{{categorias2.nombreCategoria}}</a>  

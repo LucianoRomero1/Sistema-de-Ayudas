@@ -8,28 +8,27 @@
 <div class = "container">
     <h2 class = "text-center text-info" style = "font-size: 50px"> Usuarios </h2>
     <div class = "list-group mt-4" id = "divRoles">
-        <div style="padding:10px; margin:10px;">
-            <div style="" class="container text-center">
-                <b style = "color: #0F9FA8;">Cantidad de usuarios: {{usuario|length}} </b>
-            </div>
-            <hr>
-            <div style="margin-top:5px;">
+        <div style="margin-top:5px;">
+                <div class="bordeSombreado degrade divBuscar">
                 {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-                <div class = "row justify-content-center">
+                <div class="row">
                     <div class = "col-sm-3"></div>
-                    <div class = "col-sm-8 media">
-                        {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Escribir el email..'} }) }}  
-                        {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar d-inline'} }) }}  
+                    <div class="col-sm-6">
+                        <h6 class = "text-center pb-2" style="color:#306086">Busqueda</h6>
+                        <div class = "media">
+                            {{ form_widget(formulario.buscar, {attr: {class: 'form-control',placeholder: 'Buscar por email...'} }) }}  
+                            {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar'} }) }} 
+                        </div>
                     </div>
-                    <div class = "col-sm-1">
-                        
-                    </div>
+                    <div class = "col-sm-4"></div>
                 </div>
                 {{ form_end(formulario) }}
-                
-            </div>
+                <div class = "text-center mt-2">
+                    <b style = "color: #0F9FA8;">Cantidad de usuarios: {{usuario|length}} </b>
+                </div>
+            </div> 
         </div>
-        <div class = "container mt-5 p-5" style = "box-shadow: 2px 3px 5px 1px #888888">
+        <div class = "container mt-3 p-5 bordeSombreado divBuscar" >
             <div class = "row">
                 <div class = "col-sm-4">
                     <h5 class = "text-center" style = "color: #0F9FA8">Email</h5>

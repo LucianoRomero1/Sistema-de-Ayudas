@@ -5,31 +5,57 @@
 {% block body %}
 {{parent()}} 
 <div class = "container-fluid">
-
-    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-    <div class = "container row mt-3">
-        <div class = "col-sm-7 media">
-            {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Buscar por nombre..'} }) }}  
-            {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar d-inline'} }) }}  
+    <div class="bordeSombreado degrade divBuscar">
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+        <div class="row">
+            <div class="col-sm-6">
+                <h6 class = "text-center" style="color:#306086">Busqueda</h6>
+                <div class = "media">
+                    {{ form_widget(formulario.buscar, {attr: {class: 'form-control',placeholder: 'Buscar por nombre...'} }) }}  
+                    {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-buscar'} }) }} 
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h6 style="color:#306086" class = "text-center">Crear nueva categoría</h6>
+                <div class = "text-center">
+                    <a class = "btn botonCeleste ancho text-white grow text-center" style = "" href = "{{path('altaCategoriasSecundarias')}}">Nueva categoría</a>
+                </div>
+            </div>
         </div>
-        <div class = "col-sm-3"></div>
-        <div class = "col-sm-2">
-            <a class = "btn form-control campoForm nueva" style = "" href = "{{path('altaCategoriasSecundarias')}}">Nueva categoría</a>
+        {{ form_end(formulario) }}
+        <div class = "m-2">
+            <b style = "color: #0F9FA8;">Cantidad de categorías secundarias: {{catSecundarias|length}} </b>
         </div>
-    </div>
-    <hr>
-    <div class = "m-3">
-        <b style = "color: #0F9FA8;">Cantidad de categorías secundarias: {{catSecundarias|length}} </b>
-    </div>
-    {{ form_end(formulario) }}
+    </div>  
+    {# <div class="bordeSombreado degrade divBuscar">
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+        <div style="text-align:center;" class="container-fluid">
+            <h3 style="color:#306086">Busqueda</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h6 class = "text-secondary ">Buscar</h6>
+                {{ form_widget(formulario.buscar, {attr: {class: 'form-control',placeholder: 'Nombre, Categoría asociada, Fecha, Publicado...'} }) }}  
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h6 class = "text-secondary ">Filtrar por</h6>
+                {{ form_widget(formulario.filtrarPor, {attr: {class: 'form-control'} }) }}  
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            {{ form_widget(formulario.Buscar, {attr: {class: 'btn botonCeleste ancho text-white grow'} }) }}  
+        </div>
+        {{ form_end(formulario) }}
+    </div>   #}
+    <br>
     <table class="table table-borderless">
         <thead class = "text-white">
                 <tr style = "background-color: #0F9FA8;">
-                <th>Nro</th>
+                <th>Nº</th>
                 <th>Nombre</th>
-                <th>Categoria PP Asociada</th>
+                <th class = "" style = "width: 200px; ">Categoria PP Asociada</th>
                 <th>Publicado</th>
-                <th>Fecha Publicación Desde</th>
+                <th class = "text-center" style = "width: 120px;">Fecha Desde</th>
                 <th style="text-align: center;">EDITAR</th>
                 <th style="text-align: center;">ELIMINAR</th>
             </tr>
@@ -39,12 +65,9 @@
             <tr>
                 <th>{{ loop.index }}</th>
                 <td>{{categoriaSec.nombreCategoria}}</td>
-                {# {% if categoriaSec.idCategoriaPrincipal != null %}
-                    <td>{{categoriaSec.idCategoriaPrincipal.nombreCategoria}}</td>
-                {% endif %} #}
                 <td>{{categoriaSec.idCategoriaPrincipal.nombreCategoria}}</td>
                 <td>{{categoriaSec.publicado}}</td>
-                <td>{{categoriaSec.fechaPublicacionDesde|date('d-m-Y')}}</td>
+                <td style = "width: 110px;">{{categoriaSec.fechaPublicacionDesde|date('d/m/Y')}}</td>
                 <td style="text-align: center;"><a class ="btn grow" href="{{path ('modificarSecundarias', {'id': categoriaSec.id})}}" ><i class="far fa-edit text-success" style = "font-size: 20px;"></i></a></td>
                 <td style="text-align: center;"><a class = "btn grow"  onclick="DeleteFunction({{categoriaSec.id}})"><i class=" fas fa-trash text-danger"   style = "font-size: 20px"></i></a></td>
             </tr>

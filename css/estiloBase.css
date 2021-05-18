@@ -154,7 +154,7 @@
     .pers-drop-down{
         position: absolute;
         top: 40px;
-        left: -220px !important;
+        left: -160px !important;
         z-index: 1000;
         display: none;
         float: left;

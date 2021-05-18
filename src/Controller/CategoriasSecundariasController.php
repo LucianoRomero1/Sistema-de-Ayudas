@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\UserBusqueda;
 use App\Form\UserBusquedaType;
 
+
 //Controller general para un CRUD
 class CategoriasSecundariasController extends AbstractController
 {
@@ -20,10 +21,8 @@ class CategoriasSecundariasController extends AbstractController
     public function AltaCategoriasSecundarias(Request $request)
     {
         $catSecundarias = new CategoriaSecundaria();
-        //Pongo fecha inicial por defecto
-        $fechaActual = $this -> getFechActual();
-        $catSecundarias -> setFechaPublicacionDesde($fechaActual);
-        //
+       
+
         $formulario = $this -> createForm(CategoriaSecundariaType::class, $catSecundarias);
         $formulario -> handleRequest($request);
         
@@ -37,12 +36,16 @@ class CategoriasSecundariasController extends AbstractController
             $catSecundarias -> setPublicado("Despublicado");
         }
 
+        
       
 
         if($formulario -> isSubmitted() && $formulario -> isValid() && $this -> getAnioValido($fecha) && $this -> getAnioValidoHasta($fechaHasta)){
             $em = $this -> getDoctrine() -> getManager();
-
             if($catSecundarias -> getIdCategoriaPrincipal() != null){
+                $perfilVacio = $catSecundarias->getPerfilAsignado();
+                if($perfilVacio -> getId() == '1'){
+                    $catSecundarias->setPerfilAsignado(null);
+                }
                 $catSecundarias -> setInfoAsignada(false);
                 $em -> persist($catSecundarias);
                 $em -> flush();
@@ -71,28 +74,46 @@ class CategoriasSecundariasController extends AbstractController
         $form = $this -> createForm(UserBusquedaType::class, new UserBusqueda());
         $form -> handleRequest($request);
         $busqueda = $form -> getData(); 
-
-        // $catSecundarias = $em -> getRepository(CategoriaSecundaria::class) -> findAll();
-        $catSecundarias= $em->getRepository(CategoriaSecundaria::class)->findBy(array(), array('nombre_categoria' => 'ASC'));
-
+ 
+        $catSecundarias= $em->getRepository(CategoriaSecundaria::class)->findBy(array(), array('id' => 'DESC'));
+  
+        
         if($form -> isSubmitted()){
             return $this -> render('categorias_secundarias/verCategoriasSecundarias.html.twig', [
-                'catSecundarias' => $this -> buscarCatSec($busqueda), 'formulario' => $form -> createView()
-                ]);
+                'catSecundarias' => $this -> buscarPorNombre($busqueda), 'formulario' => $form -> createView()
+            ]);
         }
         else{
             return $this -> render('categorias_secundarias/verCategoriasSecundarias.html.twig', [
                 'catSecundarias' => $catSecundarias, 'formulario' => $form -> createView()
             ]);
         }
-      
-
     }  
 
-    public function buscarCatSec(UserBusqueda $busqueda){
-        $manager=$this->getDoctrine()->getManager();
+ 
+    //Esto es para order por categorias
+    public function ordenarPorCatPPUserBusqueda (){
         
-        $query = $manager->createQuery(
+        $em = $this -> getDoctrine() -> getManager();
+        $query = $em->createQuery(
+        "SELECT cs
+        FROM App\Entity\CategoriaSecundaria cs
+        
+        ORDER BY cs.id_categoria_principal ASC
+        "
+        );
+        
+        //Límite de resultados..
+        $query->setMaxResults(100);
+        
+        
+        return $query->getResult();
+    }
+
+    public function buscarPorNombre(UserBusqueda $busqueda){
+        
+        $em = $this -> getDoctrine() -> getManager();
+        $query = $em->createQuery(
         "SELECT cs
         FROM App\Entity\CategoriaSecundaria cs
         WHERE cs.nombre_categoria LIKE :nombre_categoria
@@ -102,15 +123,13 @@ class CategoriasSecundariasController extends AbstractController
         "
         )->setParameter('nombre_categoria','%'. $busqueda->getBuscar().'%');
         
-        
-        
         //Límite de resultados..
         $query->setMaxResults(100);
         
         //Retorna busqueda de la compra..
         return $query->getResult();
     }
-
+    
     /**
      * @Route("/admin/modificarSecundarias/{id}", name="modificarSecundarias")
      */
@@ -137,7 +156,10 @@ class CategoriasSecundariasController extends AbstractController
 
         if($formulario -> isSubmitted() && $formulario -> isValid()  && $this -> getAnioValido($fecha) && $this -> getAnioValidoHasta($fechaHasta)){
             $catSecundarias = $formulario->getData();
-           
+            $perfilVacio = $catSecundarias->getPerfilAsignado();
+            if($perfilVacio -> getId() == '1'){
+                $catSecundarias->setPerfilAsignado(null);
+            }
 
 
             $this -> addFlash('info', '¡La categoría secundaria se modificó correctamente!');
@@ -147,7 +169,7 @@ class CategoriasSecundariasController extends AbstractController
         }
 
         return $this -> render('categorias_secundarias/modificarCategoriasSecundarias.html.twig', [
-            'formulario' => $formulario -> createView(),
+            'formulario' => $formulario -> createView(), 'catSecundarias' => $catSecundarias
             
         ]);
 
