@@ -50,7 +50,7 @@ class DestinoController extends AbstractController
         $busqueda = $form -> getData();
 
 
-        $destino = $em -> getRepository(Destinos::class) ->findBy(array(), array('email' => 'ASC'));
+        $destino = $em -> getRepository(Destinos::class) ->findBy(array(), array('id' => 'DESC'));
 
 
         if($form -> isSubmitted()){
@@ -74,7 +74,7 @@ class DestinoController extends AbstractController
         "SELECT d
         FROM App\Entity\Destinos d
         WHERE d.email LIKE :email
-        ORDER BY d.id ASC
+        ORDER BY d.id DESC
         "
         )->setParameter('email','%'. $busqueda->getBuscar().'%');
         

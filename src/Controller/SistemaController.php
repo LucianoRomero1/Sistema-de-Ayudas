@@ -336,7 +336,7 @@ class SistemaController extends AbstractController
                 $transport = (new \Swift_SmtpTransport('smtp.gmail.com',587,'tls'))
                 
                 ->setUsername('intranet@unraf.edu.ar')
-                ->setPassword('1ntr4n3t123');
+                ->setPassword('R3l4Xunra');
                 
                 //Envio de email
                 $mailer = new \Swift_Mailer($transport);
@@ -495,7 +495,7 @@ class SistemaController extends AbstractController
                 $transport = (new \Swift_SmtpTransport('smtp.gmail.com',587,'tls'))
                 
                 ->setUsername('intranet@unraf.edu.ar')
-                ->setPassword('1ntr4n3t123');
+                ->setPassword('R3l4Xunra');
                 
                 //Envio de email
                 

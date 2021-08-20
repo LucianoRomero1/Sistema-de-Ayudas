@@ -118,17 +118,31 @@ class CategoriasSecundariasController extends AbstractController
         FROM App\Entity\CategoriaSecundaria cs
         WHERE cs.nombre_categoria LIKE :nombre_categoria
         
-        
-        ORDER BY cs.id ASC
+        ORDER BY cs.id DESC
         "
         )->setParameter('nombre_categoria','%'. $busqueda->getBuscar().'%');
+        
         
         //Límite de resultados..
         $query->setMaxResults(100);
         
-        //Retorna busqueda de la compra..
         return $query->getResult();
     }
+
+    // public function probando(UserBusqueda $busqueda){
+    //     $em = $this -> getDoctrine() -> getManager();
+    //     $query = $em -> createQuery(
+    //         'SELECT cs.nombre_categoria, cs.publicado, cs.fecha_publicacion_desde, cp.nombre_categoria
+    //         FROM App\Entity\CategoriaSecundaria cs INNER JOIN cp
+    //         ON cs.id_categoria_principal_id = cp.categoriaSecundaria
+    //         ORDER BY cs.id DESC
+    //         '
+    //     )->setParameter('cs.nombre_categoria','%'. $busqueda->getBuscar().'%');
+
+    //     $query -> setMaxResults(10);
+
+    //     return $query -> getResult();
+    // }
     
     /**
      * @Route("/admin/modificarSecundarias/{id}", name="modificarSecundarias")

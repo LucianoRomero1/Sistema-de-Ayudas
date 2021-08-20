@@ -88,7 +88,7 @@ class InformacionController extends AbstractController
         "SELECT i
         FROM App\Entity\Informacion i
         WHERE i.descripcion_corta LIKE :descripcion_corta
-        ORDER BY i.id ASC
+        ORDER BY i.id DESC
         "
         )->setParameter('descripcion_corta','%'. $busqueda->getBuscar().'%');
         

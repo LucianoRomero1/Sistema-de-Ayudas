@@ -100,6 +100,7 @@ class CategoriaPrincipalController extends AbstractController
         $form -> handleRequest($request);
         $busqueda = $form -> getData();
 
+        
         // $categoriaPP = $manager -> getRepository(CategoriaPrincipal::class)-> findAll(); 
 
         //Los acomoda por nombre 
@@ -126,7 +127,7 @@ class CategoriaPrincipalController extends AbstractController
         "SELECT c
         FROM App\Entity\CategoriaPrincipal c
         WHERE c.nombre_categoria LIKE :nombre_categoria
-        ORDER BY c.id ASC
+        ORDER BY c.id DESC
         "
         )->setParameter('nombre_categoria','%'. $busqueda->getBuscar().'%');
         

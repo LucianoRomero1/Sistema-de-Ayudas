@@ -129,7 +129,8 @@ class PerfilSolicitanteController extends AbstractController
         "SELECT p
         FROM App\Entity\PerfilSolicitante p
         WHERE p.descripcion_corta LIKE :descripcion_corta
-        ORDER BY p.id ASC
+        AND p.id != '1' 
+        ORDER BY p.id DESC
         "
         )->setParameter('descripcion_corta','%'. $busqueda->getBuscar().'%');
         //Es para que busque en la cadena completa un string, ignorando la posición en donde esté
@@ -148,7 +149,7 @@ class PerfilSolicitanteController extends AbstractController
         "SELECT p
         FROM App\Entity\PerfilSolicitante p
         WHERE p.id != '1' 
-        ORDER BY p.id ASC
+        ORDER BY p.id DESC
         "
         );
         
